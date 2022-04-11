@@ -1,0 +1,27 @@
+/* Medium */
+
+@media only screen and (max-width: 950px) {
+  .content {
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: white;
+    width: 100vw;
+    padding: var(--border-radius);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Mobile  */
+@media only screen and (max-width: 600px) {
+  .content {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: white;
+    width: 100vw;
+    padding: var(--border-radius);
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}

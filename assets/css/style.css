@@ -45,6 +45,10 @@ body {
   grid-template-columns: 2fr 1fr;
 }
 
+.main a {
+  color: var(--secondary);
+}
+
 /*  */
 /* Profile Section */
 /*  */
@@ -203,6 +207,7 @@ body {
 
 .main .info ul li:last-of-type::after {
   height: calc(100% - 16px);
+  border-radius: 0 0 2px 2px;
 }
 
 .main .info ul li.active::before,
@@ -211,6 +216,10 @@ body {
 }
 
 .main .info ul li p {
+  padding-left: 1.5rem;
+  text-indent: -1.5rem;
+  text-align: justify;
+  max-width: 60%;
   margin: 0;
 }
 
@@ -227,8 +236,9 @@ body {
   margin-left: 16px;
 }
 
+/*  */
 /* SideBar */
-
+/*  */
 .side-item {
   background-color: var(--primary);
   width: 100%;
