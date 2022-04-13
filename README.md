@@ -1,4 +1,4 @@
-# Free Resume Template
+# Free Resume Template (قالب رزومه رایگان)
 
 A simple and responsive HTML resume template for students/freelancers who want to host a web version of their resume online. To edit simply download the source code or clone using git cli :
 
