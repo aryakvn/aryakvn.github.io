@@ -13,7 +13,7 @@ To host a version of this template on your own github pages, simply fork the rep
 ---
 ## Color Themes
 
-The main style of the page is stores at `/assets/css/style.css`. To change the theme color simply adjust the css variables defined in the `:root` element. the default values are :
+The main style of the page is located at `/assets/css/style.css`. To change the theme color simply adjust the css variables defined in the `:root` element. the default values are :
 
 ```css
 :root {
