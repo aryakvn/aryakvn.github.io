@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Arya Kavian</title>
+  <meta name="description" content="Selected projects, side experiments, and open-source work." />
+  <meta name="theme-color" content="#15110c" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2315110c'/%3E%3Ctext x='50' y='70' font-family='monospace' font-size='62' font-weight='700' text-anchor='middle' fill='%23d8412a'%3Ek%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+  <header class="nav" role="banner">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-mark">A—K</span>
+      <span class="brand-version">portfolio · v.2026</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a class="nav-link" href="index.html">Index</a></li>
+        <li><a class="nav-link" href="resume.html">Resume</a></li>
+        <li><a class="nav-link is-active" href="projects.html">Projects</a></li>
+        <li><a class="nav-link" href="blog.html">Field&nbsp;Notes</a></li>
+        <li><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="nav-utility">
+      <div class="live-clock" data-clock data-tz="Asia/Tehran" data-label="Tehran · GMT+3:30"></div>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="nav-overlay" aria-hidden="true">
+    <ul class="nav-overlay-links">
+      <li><a class="nav-overlay-link" href="index.html"><span class="num">01</span> Index</a></li>
+      <li><a class="nav-overlay-link" href="resume.html"><span class="num">02</span> Resume</a></li>
+      <li><a class="nav-overlay-link" href="projects.html"><span class="num">03</span> Projects</a></li>
+      <li><a class="nav-overlay-link" href="blog.html"><span class="num">04</span> Field&nbsp;Notes</a></li>
+      <li><a class="nav-overlay-link" href="contact.html"><span class="num">05</span> Contact</a></li>
+    </ul>
+  </div>
+
+  <main>
+
+    <!-- ====================================================== PAGE HEADER -->
+    <section class="page-header">
+      <div class="container">
+        <div class="page-header-meta">
+          <span class="path">~<span class="slash">/</span>aryakvn<span class="slash">/</span><span class="file">projects/</span></span>
+          <span>03 / 05 — Projects · 06 entries</span>
+        </div>
+
+        <h1 class="page-title">
+          Things I've made — <em>shipped</em>, archived, and still in flight.
+        </h1>
+
+        <div class="page-intro">
+          <p class="lede">
+            <strong>A selection from GitHub</strong> — open-source templates,
+            research collaborations, educational projects, and side utilities.
+            Most are public and free to fork; the ones that aren't are
+            client work I can talk about over email.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ====================================================== FILTERS -->
+    <section class="container" style="padding-top: var(--s-7);">
+      <div class="filters" data-filter-group data-filter-target=".project-item">
+        <span class="filter-label">filter</span>
+        <button class="filter-btn is-active" data-filter="all">all</button>
+        <button class="filter-btn" data-filter="research">research</button>
+        <button class="filter-btn" data-filter="template">template</button>
+        <button class="filter-btn" data-filter="education">education</button>
+        <button class="filter-btn" data-filter="utility">utility</button>
+        <button class="filter-btn" data-filter="security">security</button>
+      </div>
+    </section>
+
+    <!-- ====================================================== PROJECT GRID -->
+    <section class="container" style="padding-bottom: var(--s-10);">
+      <div class="work-grid reveal-stagger">
+
+        <a class="work-card project-item" id="llmsecguard" href="https://github.com/aryakvn/LLMSecGuard" target="_blank" rel="noopener" data-tags="research security">
+          <div class="work-card-media">
+            <div class="placeholder gradient-mesh-1 placeholder-grid">
+              <div class="placeholder-label">
+                <span class="top">001 — research · 21★</span>
+                <span class="name">LLMSecGuard</span>
+              </div>
+            </div>
+            <div class="work-card-overlay"></div>
+            <div class="work-card-arrow">↗</div>
+          </div>
+          <div class="work-card-meta">
+            <h3 class="work-card-title"><span class="num">001</span> LLMSecGuard</h3>
+            <span class="work-card-tags">security · llm · '24</span>
+          </div>
+        </a>
+
+        <a class="work-card project-item" id="djangovue" href="https://github.com/aryakvn/django-vue-docker-compose" target="_blank" rel="noopener" data-tags="template">
+          <div class="work-card-media">
+            <div class="placeholder gradient-mesh-2 placeholder-grid">
+              <div class="placeholder-label">
+                <span class="top">002 — full-stack template</span>
+                <span class="name">Django—Vue&nbsp;Stack</span>
+              </div>
+            </div>
+            <div class="work-card-overlay"></div>
+            <div class="work-card-arrow">↗</div>
+          </div>
+          <div class="work-card-meta">
+            <h3 class="work-card-title"><span class="num">002</span> Django × Vue Stack</h3>
+            <span class="work-card-tags">docker · nginx · postgres</span>
+          </div>
+        </a>
+
+        <a class="work-card project-item" id="aimaze" href="https://github.com/aryakvn/mazust-ai-maze" target="_blank" rel="noopener" data-tags="education">
+          <div class="work-card-media">
+            <div class="placeholder gradient-mesh-3 placeholder-grid">
+              <div class="placeholder-label">
+                <span class="top">003 — algorithms</span>
+                <span class="name">AI&nbsp;Maze</span>
+              </div>
+            </div>
+            <div class="work-card-overlay"></div>
+            <div class="work-card-arrow">↗</div>
+          </div>
+          <div class="work-card-meta">
+            <h3 class="work-card-title"><span class="num">003</span> AI Maze</h3>
+            <span class="work-card-tags">python · viz · edu.</span>
+          </div>
+        </a>
+
+        <a class="work-card project-item" id="windowsrgb" href="https://github.com/aryakvn/WindowsRGB" target="_blank" rel="noopener" data-tags="utility">
+          <div class="work-card-media">
+            <div class="placeholder gradient-mesh-4 placeholder-grid">
+              <div class="placeholder-label">
+                <span class="top">004 — desktop utility</span>
+                <span class="name">WindowsRGB</span>
+              </div>
+            </div>
+            <div class="work-card-overlay"></div>
+            <div class="work-card-arrow">↗</div>
+          </div>
+          <div class="work-card-meta">
+            <h3 class="work-card-title"><span class="num">004</span> WindowsRGB</h3>
+            <span class="work-card-tags">c# · windows</span>
+          </div>
+        </a>
+
+        <a class="work-card project-item" id="revshell" href="https://github.com/aryakvn/python-revshell" target="_blank" rel="noopener" data-tags="security utility">
+          <div class="work-card-media">
+            <div class="placeholder gradient-mesh-5 placeholder-grid">
+              <div class="placeholder-label">
+                <span class="top">005 — security</span>
+                <span class="name">python—revshell</span>
+              </div>
+            </div>
+            <div class="work-card-overlay"></div>
+            <div class="work-card-arrow">↗</div>
+          </div>
+          <div class="work-card-meta">
+            <h3 class="work-card-title"><span class="num">005</span> python-revshell</h3>
+            <span class="work-card-tags">python · networking</span>
+          </div>
+        </a>
+
+        <a class="work-card project-item" id="resumetpl" href="https://github.com/aryakvn/aryakvn.github.io" target="_blank" rel="noopener" data-tags="template">
+          <div class="work-card-media">
+            <div class="placeholder gradient-mesh-6 placeholder-grid">
+              <div class="placeholder-label">
+                <span class="top">006 — github pages</span>
+                <span class="name">resume—template</span>
+              </div>
+            </div>
+            <div class="work-card-overlay"></div>
+            <div class="work-card-arrow">↗</div>
+          </div>
+          <div class="work-card-meta">
+            <h3 class="work-card-title"><span class="num">006</span> Resume Template</h3>
+            <span class="work-card-tags">html · css · pages</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div style="margin-top: var(--s-7); display: flex; justify-content: flex-end;">
+        <a href="https://github.com/aryakvn" target="_blank" rel="noopener" class="btn">
+          See all on GitHub <span class="arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ====================================================== TICKET CTA -->
+    <section class="section container reveal">
+      <a class="ticket-cta" href="contact.html">
+        <div>
+          <div class="ticket-cta-eyebrow">
+            <span class="dot"></span> looking for a collaborator?
+          </div>
+          <h2 class="ticket-cta-title">
+            I'm always glad to talk about <em>something well-made</em>.
+          </h2>
+          <p class="ticket-cta-desc">
+            If your project sits anywhere in this neighbourhood — backend
+            systems, devtools, careful interfaces — drop me a line. I read
+            every email.
+          </p>
+        </div>
+        <div class="ticket-cta-arrow">→</div>
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-block-title">Get in touch</p>
+          <ul class="footer-list">
+            <li><a href="mailto:arya@aryakvn.ir" data-copy="arya@aryakvn.ir">arya@aryakvn.ir <span class="arrow">→</span></a></li>
+            <li><a href="contact.html">Start a project <span class="arrow">→</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-block-title">Field statement</p>
+          <p class="footer-tagline">
+            Building <em>quiet software</em> for teams that
+            care about how things are made.
+          </p>
+        </div>
+        <div>
+          <p class="footer-block-title">Elsewhere</p>
+          <ul class="footer-list">
+            <li><a href="https://github.com/aryakvn">GitHub <span class="arrow">↗</span></a></li>
+            <li><a href="https://www.linkedin.com/in/arya-kavian-925994191/">LinkedIn <span class="arrow">↗</span></a></li>
+            <li><a href="https://x.com/AryaKvn">X / Twitter <span class="arrow">↗</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-block-title">Availability</p>
+          <ul class="footer-list">
+            <li><span style="color: var(--color-orange);">● open</span></li>
+            <li><span class="muted" style="font-size: var(--text-sm);">EU remote &amp; onsite<br/>roles wanted</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-base">
+        <span>© '26 — Arya Kavian</span>
+        <span class="center">— 8 projects · <span class="commit">last commit</span> 04/26 —</span>
+        <span class="right">press <span class="kbd">⌘ K</span> to write</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

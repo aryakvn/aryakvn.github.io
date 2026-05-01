@@ -1,0 +1,14 @@
+{
+  "name": "aryakvn",
+  "version": "1.0.0",
+  "description": "Arya Kavian's personal portfolio website",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx --yes serve -l 3000 .",
+    "start": "npx --yes serve -l 3000 ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

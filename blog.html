@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Notes — Arya Kavian</title>
+  <meta name="description" content="Essays and notes on software craft, backend design, and developer experience." />
+  <meta name="theme-color" content="#15110c" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2315110c'/%3E%3Ctext x='50' y='70' font-family='monospace' font-size='62' font-weight='700' text-anchor='middle' fill='%23d8412a'%3Ek%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+  <header class="nav" role="banner">
+    <a href="index.html" class="nav-brand">
+      <span class="brand-mark">A—K</span>
+      <span class="brand-version">portfolio · v.2026</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a class="nav-link" href="index.html">Index</a></li>
+        <li><a class="nav-link" href="resume.html">Resume</a></li>
+        <li><a class="nav-link" href="projects.html">Projects</a></li>
+        <li><a class="nav-link is-active" href="blog.html">Field&nbsp;Notes</a></li>
+        <li><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="nav-utility">
+      <div class="live-clock" data-clock data-tz="Asia/Tehran" data-label="Tehran · GMT+3:30"></div>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="nav-overlay" aria-hidden="true">
+    <ul class="nav-overlay-links">
+      <li><a class="nav-overlay-link" href="index.html"><span class="num">01</span> Index</a></li>
+      <li><a class="nav-overlay-link" href="resume.html"><span class="num">02</span> Resume</a></li>
+      <li><a class="nav-overlay-link" href="projects.html"><span class="num">03</span> Projects</a></li>
+      <li><a class="nav-overlay-link" href="blog.html"><span class="num">04</span> Field&nbsp;Notes</a></li>
+      <li><a class="nav-overlay-link" href="contact.html"><span class="num">05</span> Contact</a></li>
+    </ul>
+  </div>
+
+  <main>
+
+    <!-- ====================================================== PAGE HEADER -->
+    <section class="page-header">
+      <div class="container">
+        <div class="page-header-meta">
+          <span class="path">~<span class="slash">/</span>aryakvn<span class="slash">/</span><span class="file">notes/</span></span>
+          <span>04 / 05 — Field Notes · 12 entries</span>
+        </div>
+
+        <h1 class="page-title">
+          <em>Slow writing</em> about fast software.
+        </h1>
+
+        <div class="page-intro">
+          <p class="lede">
+            <strong>Twelve essays</strong>, written in the gaps between the
+            real work. They tend toward the unfashionable: error paths,
+            naming, abstraction politics, and the strange comfort of code
+            that grows old gracefully.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ====================================================== FILTERS -->
+    <section class="container" style="padding-top: var(--s-7);">
+      <div class="filters" data-filter-group data-filter-target=".note-item">
+        <span class="filter-label">topic</span>
+        <button class="filter-btn is-active" data-filter="all">all</button>
+        <button class="filter-btn" data-filter="essay">essay</button>
+        <button class="filter-btn" data-filter="notes">notes</button>
+        <button class="filter-btn" data-filter="postmortem">postmortem</button>
+        <button class="filter-btn" data-filter="craft">craft</button>
+      </div>
+    </section>
+
+    <!-- ====================================================== FEATURED -->
+    <section class="container" style="padding-top: var(--s-7);">
+      <a class="featured-post note-item reveal" id="observability" href="#" data-tags="essay craft">
+        <div class="featured-post-media">
+          <div class="placeholder gradient-mesh-1 placeholder-grid">
+            <div class="placeholder-label">
+              <span class="top">featured · 7m read</span>
+              <span class="name">on observability</span>
+            </div>
+          </div>
+        </div>
+        <div class="featured-post-content">
+          <div class="eyebrow">
+            <span class="badge">Featured</span>
+            <span>Mon · 14 Apr '26</span>
+          </div>
+          <h2 class="featured-post-title">
+            Observability <em>without dashboards</em>.
+          </h2>
+          <p class="featured-post-excerpt">
+            Most teams treat dashboards as the destination — they're not.
+            Dashboards are the airport: a place you pass through on the way
+            to a real answer. A note on logs, traces, and the discipline of
+            asking better questions.
+          </p>
+          <div style="display: flex; gap: var(--s-3); flex-wrap: wrap;">
+            <span class="tag orange">essay</span>
+            <span class="tag">observability</span>
+            <span class="tag">backend</span>
+            <span class="tag">tooling</span>
+          </div>
+          <div class="featured-post-foot">
+            <span>04 / 26 · 7 min read</span>
+            <span class="read">read essay →</span>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <!-- ====================================================== ARTICLE LIST -->
+    <section class="section container">
+
+      <div class="section-header" style="margin-bottom: var(--s-7);">
+        <div>
+          <span class="section-marker">
+            <span class="marker-num">04</span>
+            <span class="marker-rule"></span>
+            <span>Archive</span>
+          </span>
+        </div>
+        <h2 class="title">
+          Older notes, <em>still kept</em>.
+        </h2>
+      </div>
+
+      <div class="insight-grid reveal-stagger">
+
+        <a class="insight-card note-item" id="error-paths" href="#" data-tags="notes craft">
+          <div class="insight-card-head">
+            <span class="date">Tue · 03 Mar '26</span>
+            <span class="read-time">5m</span>
+          </div>
+          <h3 class="insight-card-title">Error paths are an interface</h3>
+          <p class="insight-card-excerpt">
+            The way your code fails is part of how others read it. A short
+            argument for treating error paths with the same care as the
+            happy ones.
+          </p>
+          <div class="insight-card-tags">
+            <span class="tag gold">notes</span>
+            <span class="tag">go</span>
+            <span class="tag">api-design</span>
+          </div>
+          <span class="insight-card-arrow">↗</span>
+        </a>
+
+        <a class="insight-card note-item" href="#" data-tags="essay craft">
+          <div class="insight-card-head">
+            <span class="date">Sun · 18 Feb '26</span>
+            <span class="read-time">8m</span>
+          </div>
+          <h3 class="insight-card-title">The weight of a good name</h3>
+          <p class="insight-card-excerpt">
+            On naming variables, files, and projects — and why the quiet
+            satisfaction of a perfectly chosen identifier is one of the
+            strange joys of this work.
+          </p>
+          <div class="insight-card-tags">
+            <span class="tag orange">essay</span>
+            <span class="tag">craft</span>
+            <span class="tag">writing</span>
+          </div>
+          <span class="insight-card-arrow">↗</span>
+        </a>
+
+        <a class="insight-card note-item" href="#" data-tags="postmortem">
+          <div class="insight-card-head">
+            <span class="date">Wed · 22 Jan '26</span>
+            <span class="read-time">11m</span>
+          </div>
+          <h3 class="insight-card-title">A migration that aged me five years</h3>
+          <p class="insight-card-excerpt">
+            An honest postmortem of the 36-hour database migration — what
+            went wrong, what I'd do differently, and why "rolling back" is
+            not always an option.
+          </p>
+          <div class="insight-card-tags">
+            <span class="tag orange">postmortem</span>
+            <span class="tag">postgres</span>
+          </div>
+          <span class="insight-card-arrow">↗</span>
+        </a>
+
+        <a class="insight-card note-item" href="#" data-tags="notes craft">
+          <div class="insight-card-head">
+            <span class="date">Fri · 12 Dec '25</span>
+            <span class="read-time">4m</span>
+          </div>
+          <h3 class="insight-card-title">Code that grows old gracefully</h3>
+          <p class="insight-card-excerpt">
+            Not all code is meant to be rewritten. Some is meant to age.
+            A small list of things I've found shared by codebases that did.
+          </p>
+          <div class="insight-card-tags">
+            <span class="tag gold">notes</span>
+            <span class="tag">craft</span>
+          </div>
+          <span class="insight-card-arrow">↗</span>
+        </a>
+
+        <a class="insight-card note-item" href="#" data-tags="essay">
+          <div class="insight-card-head">
+            <span class="date">Sat · 09 Nov '25</span>
+            <span class="read-time">6m</span>
+          </div>
+          <h3 class="insight-card-title">The politics of an abstraction</h3>
+          <p class="insight-card-excerpt">
+            Every abstraction has a constituency. A meditation on the
+            invisible alliances that form around interfaces — and what
+            happens when they break.
+          </p>
+          <div class="insight-card-tags">
+            <span class="tag orange">essay</span>
+            <span class="tag">architecture</span>
+          </div>
+          <span class="insight-card-arrow">↗</span>
+        </a>
+
+        <a class="insight-card note-item" href="#" data-tags="notes craft">
+          <div class="insight-card-head">
+            <span class="date">Tue · 14 Oct '25</span>
+            <span class="read-time">3m</span>
+          </div>
+          <h3 class="insight-card-title">Three things I keep telling juniors</h3>
+          <p class="insight-card-excerpt">
+            The same three things, every six months. They have not yet
+            stopped being true.
+          </p>
+          <div class="insight-card-tags">
+            <span class="tag gold">notes</span>
+            <span class="tag">mentorship</span>
+          </div>
+          <span class="insight-card-arrow">↗</span>
+        </a>
+
+        <a class="insight-card note-item" href="#" data-tags="essay craft">
+          <div class="insight-card-head">
+            <span class="date">Sun · 22 Sep '25</span>
+            <span class="read-time">9m</span>
+          </div>
+          <h3 class="insight-card-title">In defence of small functions</h3>
+          <p class="insight-card-excerpt">
+            Yes, the pendulum has swung. No, the answer is not to undo
+            small functions wholesale. A careful look at when to inline,
+            and when to leave well enough alone.
+          </p>
+          <div class="insight-card-tags">
+            <span class="tag orange">essay</span>
+            <span class="tag">refactoring</span>
+          </div>
+          <span class="insight-card-arrow">↗</span>
+        </a>
+
+        <a class="insight-card note-item" href="#" data-tags="notes">
+          <div class="insight-card-head">
+            <span class="date">Thu · 04 Aug '25</span>
+            <span class="read-time">2m</span>
+          </div>
+          <h3 class="insight-card-title">A short note on README files</h3>
+          <p class="insight-card-excerpt">
+            They are the first thing every reader sees. We treat them like
+            they're the last thing we wrote.
+          </p>
+          <div class="insight-card-tags">
+            <span class="tag gold">notes</span>
+            <span class="tag">documentation</span>
+          </div>
+          <span class="insight-card-arrow">↗</span>
+        </a>
+
+      </div>
+
+      <!-- Tail row: see more -->
+      <div style="margin-top: var(--s-9); padding-top: var(--s-7); border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-5); flex-wrap: wrap;">
+        <p class="muted" style="font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--track-wider);">
+          end of feed · 12 of 12 entries
+        </p>
+        <a href="contact.html" class="btn">
+          Subscribe via RSS <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-block-title">Get in touch</p>
+          <ul class="footer-list">
+            <li><a href="mailto:arya@aryakvn.ir" data-copy="arya@aryakvn.ir">arya@aryakvn.ir <span class="arrow">→</span></a></li>
+            <li><a href="contact.html">Start a project <span class="arrow">→</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-block-title">Field statement</p>
+          <p class="footer-tagline">
+            Building <em>quiet software</em> for teams that
+            care about how things are made.
+          </p>
+        </div>
+        <div>
+          <p class="footer-block-title">Elsewhere</p>
+          <ul class="footer-list">
+            <li><a href="https://github.com/aryakvn">GitHub <span class="arrow">↗</span></a></li>
+            <li><a href="https://www.linkedin.com/in/arya-kavian-925994191/">LinkedIn <span class="arrow">↗</span></a></li>
+            <li><a href="https://x.com/AryaKvn">X / Twitter <span class="arrow">↗</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-block-title">Availability</p>
+          <ul class="footer-list">
+            <li><span style="color: var(--color-orange);">● open</span></li>
+            <li><span class="muted" style="font-size: var(--text-sm);">EU remote &amp; onsite<br/>roles wanted</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-base">
+        <span>© '26 — Arya Kavian</span>
+        <span class="center">— 12 essays · <span class="commit">last edit</span> 04/26 —</span>
+        <span class="right">press <span class="kbd">⌘ K</span> to write</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
