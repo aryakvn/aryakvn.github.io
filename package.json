@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx --yes serve -l 3000 .",
-    "start": "npx --yes serve -l 3000 ."
+    "start": "npx --yes serve -l 3000 .",
+    "sitemap": "node scripts/generate-sitemap.js"
   },
   "keywords": [],
   "author": "",

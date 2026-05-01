@@ -31,10 +31,24 @@ Or open `index.html` directly in a browser — there is no build step.
 
 ## Deploy
 
-Push to `main`. The workflow at `.github/workflows/deploy.yml` uploads the
-repository root as the Pages artifact and publishes it.
+Push to `main`. The workflow at `.github/workflows/deploy.yml` will:
 
-To enable: in the repo settings → **Pages** → **Source: GitHub Actions**.
+1. **Build** — generate `sitemap.xml` and `robots.txt` (via `scripts/generate-sitemap.js`)
+2. **Verify** — fail the run if either file is missing or empty
+3. **Deploy** — upload the repo root as the Pages artifact and publish it
+
+To enable: repo settings → **Pages** → **Source: GitHub Actions**.
+
+To override the canonical site URL used in the sitemap, set repo variable
+`SITE_URL` (Settings → Secrets and variables → Actions → Variables).
+Defaults to `https://aryakvn.ir`.
+
+## SEO
+
+- `sitemap.xml` and `robots.txt` are **generated on every deploy** and not
+  committed (see `.gitignore`).
+- Each HTML page declares a `<link rel="canonical">` and `robots: index, follow`.
+- Run `npm run sitemap` locally to regenerate them on demand.
 
 ## Project layout
 

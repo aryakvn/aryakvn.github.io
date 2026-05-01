@@ -14,23 +14,52 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  # Override via repo Settings → Secrets and variables → Actions → Variables (SITE_URL)
+  SITE_URL: ${{ vars.SITE_URL || 'https://aryakvn.ir' }}
+
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
+    name: Build site & generate sitemap
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      - name: Upload artifact
+      - name: Generate sitemap.xml + robots.txt
+        run: node scripts/generate-sitemap.js
+        env:
+          SITE_URL: ${{ env.SITE_URL }}
+
+      - name: Verify sitemap
+        run: |
+          test -s sitemap.xml || (echo "sitemap.xml is missing or empty" && exit 1)
+          test -s robots.txt  || (echo "robots.txt is missing or empty"  && exit 1)
+          echo "--- sitemap.xml ---"
+          cat sitemap.xml
+          echo "--- robots.txt ---"
+          cat robots.txt
+
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Deploy to GitHub Pages
         id: deployment
