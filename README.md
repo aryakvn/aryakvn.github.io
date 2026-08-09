@@ -1,4 +1,4 @@
-# aryakavian.com
+# aryakvn.ir
 
 Personal site for Arya Kavian. Astro, fully static, no client framework, ~1 kB
 of JavaScript (a clock and a card trick). Deploys to GitHub Pages on push.
