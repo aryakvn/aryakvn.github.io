@@ -1,20 +1,19 @@
 /**
  * Everything factual about Arya lives here. Edit this file, not the markup.
- * TODO(arya): confirm the handles below — they are best guesses, not verified.
  */
 export const site = {
   author: 'Arya Kavian',
   initials: 'AK',
-  email: 'hello@example.com',
+  email: 'aryakavian01@gmail.com',
   timezone: 'Asia/Tehran',
 };
 
 /** Order is the order they appear. Delete a line to hide the link. */
 export const socials = [
   { label: 'GitHub', href: 'https://github.com/aryakvn', handle: '@aryakvn' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aryakavian/', handle: 'aryakavian' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/arya-kavian-925994191/', handle: 'arya-kavian-925994191' },
   { label: 'Medium', href: 'https://medium.com/@aryakvn', handle: '@aryakvn' },
-  { label: 'ORCID', href: 'https://orcid.org/', handle: 'orcid' },
+  { label: 'ORCID', href: 'https://orcid.org/0009-0006-2875-1000', handle: '0009-0006-2875-1000' },
 ];
 
 /**

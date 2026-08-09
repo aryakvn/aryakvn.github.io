@@ -5,6 +5,7 @@ venue: 'EASE 2024 · SECUTE'
 year: '2024'
 tags: ['LLM', 'Static analysis', 'AppSec']
 linkLabel: Read the paper
+link: https://arxiv.org/abs/2405.01103
 order: 1
 ---
 
@@ -15,4 +16,3 @@ back to the model so the next revision is measurably safer than the first.
 The practical question underneath it: as more code is written by models, who
 is reading it?
 
-<!-- TODO(arya): add `link:` with the DOI or arXiv URL. -->
