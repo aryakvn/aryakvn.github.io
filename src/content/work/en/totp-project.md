@@ -1,5 +1,5 @@
 ---
-title: AvaLogger
+title: CLI TOTP Tool 
 question: I needed a CLI TOTP client so I built one.
 year: '2025'
 suit: crystal
