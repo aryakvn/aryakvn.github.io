@@ -107,21 +107,27 @@ function sectionHeads() {
   });
 }
 
-/** Cards land on the table in sequence, then go back to being CSS's problem. */
+/**
+ * Cards land on the table in sequence, then go back to being CSS's problem.
+ *
+ * `.card` transitions `transform`, so while GSAP writes a transform every
+ * frame the browser is also easing toward it — the entrance smears and the
+ * clearProps at the end snaps. Suppress the transition for the duration.
+ */
 function dealCards() {
   ScrollTrigger.batch('.suit, .spread > .entry', {
     start: 'top 88%',
-    onEnter: (batch) =>
+    onEnter: (batch) => {
+      gsap.set(batch, { transition: 'none' });
       gsap.from(batch, {
         opacity: 0,
         y: 56,
-        rotate: () => gsap.utils.random(-4, 4),
-        scale: 0.97,
         duration: 1,
         ease: 'power3.out',
         stagger: 0.11,
         onComplete: release(batch),
-      }),
+      });
+    },
   });
 }
 
