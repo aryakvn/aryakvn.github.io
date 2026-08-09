@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "title": "Arya Kavian — Software Engineer",
+    "description": "Software engineer and tinkerer working across web, AI, security and systems. Curious about what happens underneath.",
+    "langName": "English"
+  },
+  "nav": {
+    "skip": "Skip to content",
+    "work": "Work",
+    "research": "Research",
+    "writing": "Writing",
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "hero": {
+    "arcana": "XVII",
+    "cardName": "The Tinkerer",
+    "name": "Arya Kavian",
+    "role": "Software engineer · tinkerer · researcher",
+    "tagline": "Curious about what happens underneath.",
+    "intro": "I build software, take it apart, and try to work out why it held together in the first place.",
+    "domains": ["Web", "AI", "Security", "Systems"],
+    "ctaWork": "See the work",
+    "ctaResearch": "Read the research",
+    "imageAlt": "An engraved tarot plate: Arya Kavian holding a laptop, between a starry night sky and a storm cloud, surrounded by books, crystals and foliage."
+  },
+  "about": {
+    "numeral": "I",
+    "title": "The character sheet",
+    "note": "Who is holding the laptop",
+    "body": [
+      "I'm a software engineer interested in the space between building things and understanding them. My work runs through web development, backend systems, infrastructure, AI and security — usually because something wouldn't stop bothering me.",
+      "Outside of code I'm drawn to things with character: old cars, photography, mechanical objects, and the occasional card trick.",
+      "Different subjects, same question. How does it work?"
+    ],
+    "statsTitle": "Attributes",
+    "stats": [
+      { "k": "Class", "v": "Software engineer" },
+      { "k": "Subclass", "v": "Tinkerer / researcher" },
+      { "k": "Location", "v": "Iran" },
+      { "k": "Domains", "v": "Web · AI · Security · Systems" },
+      { "k": "Currently", "v": "Probably debugging something" },
+      { "k": "Stack", "v": "Too many things" },
+      { "k": "Weakness", "v": "Interesting problems" }
+    ],
+    "creedTitle": "Method",
+    "creed": ["Build it.", "Understand it.", "Break it.", "Secure it."]
+  },
+  "suits": {
+    "numeral": "II",
+    "title": "The four suits",
+    "note": "Tools, not identity",
+    "intro": "Everything I work with falls into one of four piles. The pile matters more than the logo.",
+    "items": [
+      {
+        "glyph": "bolt",
+        "name": "Storms",
+        "sub": "Systems & infrastructure",
+        "line": "Containers, reverse proxies, queues, CI, the machine underneath the machine.",
+        "tags": ["Docker", "Linux", "Nginx", "CI/CD", "Networking", "Postgres"]
+      },
+      {
+        "glyph": "moon",
+        "name": "Night sky",
+        "sub": "AI & language models",
+        "line": "Building software around models, and asking hard questions about what they produce.",
+        "tags": ["LLMs", "Python", "Local models", "Computer vision", "Agents"]
+      },
+      {
+        "glyph": "crystal",
+        "name": "Crystals",
+        "sub": "Security",
+        "line": "Authentication, static analysis, vulnerability detection. How systems fail, and why.",
+        "tags": ["AppSec", "Static analysis", "Auth", "Honeypots", "Threat modelling"]
+      },
+      {
+        "glyph": "leaf",
+        "name": "Foliage",
+        "sub": "Web & craft",
+        "line": "The part people actually touch. Interfaces that behave like well-made objects.",
+        "tags": ["Vue", "Django", "TypeScript", "Astro", "Design systems"]
+      }
+    ]
+  },
+  "work": {
+    "numeral": "III",
+    "title": "Things I built",
+    "note": "Each one started as a question",
+    "intro": "I needed something. So I built it. The interesting part was usually somewhere in the middle.",
+    "empty": "No cards on the table yet."
+  },
+  "research": {
+    "numeral": "IV",
+    "title": "Things I wondered about",
+    "note": "Published work",
+    "empty": "Nothing published here yet."
+  },
+  "writing": {
+    "numeral": "V",
+    "title": "The codex",
+    "note": "Notes and long rabbit holes",
+    "intro": "Notes from things I couldn't stop wondering about.",
+    "empty": "Nothing written down yet.",
+    "readMore": "Read"
+  },
+  "photos": {
+    "numeral": "VI",
+    "title": "Outside the terminal",
+    "note": "Optional, and better that way",
+    "intro": "Cars. Cameras. Machines. Things with interesting mechanisms.",
+    "empty": "Nothing developed yet. Come back after the next roll."
+  },
+  "contact": {
+    "numeral": "VII",
+    "title": "Correspondence",
+    "note": "Slow but reliable",
+    "intro": "Working on something strange, technical, or both? I read everything.",
+    "emailLabel": "Write to me"
+  },
+  "trick": {
+    "prompt": "Pick a card",
+    "hint": "Go on. It's not a real trick.",
+    "again": "Shuffle",
+    "lines": [
+      "You didn't pick this card. It picked you.",
+      "The bug was in the middleware. It's always the middleware.",
+      "Every abstraction is a promise someone else has to keep.",
+      "It worked on the first try. Be suspicious.",
+      "The oldest machine in the room is usually the best documented.",
+      "Read the source. The docs are a rumour.",
+      "If you can't break it, you don't understand it yet.",
+      "Cache invalidation. That's the whole card."
+    ]
+  },
+  "footer": {
+    "colophon": "Colophon",
+    "builtWith": "Static site, hand-set type, no trackers.",
+    "localTime": "Local time",
+    "status": "Status",
+    "statusValue": "Online, mostly",
+    "build": "Build",
+    "rights": "All rights reserved."
+  }
+}

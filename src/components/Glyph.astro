@@ -1,0 +1,70 @@
+---
+/** Suit marks and ornaments, lifted from the plate: storm, night sky, crystal, foliage. */
+interface Props {
+  name: 'bolt' | 'moon' | 'crystal' | 'leaf' | 'corner' | 'diamond';
+  class?: string;
+}
+const { name, class: klass } = Astro.props;
+---
+
+<!-- Size and colour come from inherited custom properties: a parent's scoped
+     styles can't reach in here, but `--glyph-*` crosses the boundary fine. -->
+<style>
+  svg {
+    width: var(--glyph-size, 1.25rem);
+    height: var(--glyph-size, 1.25rem);
+    color: var(--glyph-color, currentColor);
+    flex: none;
+    transition: color 0.45s var(--ease);
+  }
+</style>
+
+{
+  name === 'bolt' && (
+    <svg class={klass} viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M18 3 8 18h6l-2 11 12-16h-6z" stroke-linejoin="round" />
+      <path d="M4 8c2-2 5-3 8-3M28 24c-2 2-5 3-8 3" stroke-linecap="round" opacity=".55" />
+    </svg>
+  )
+}
+{
+  name === 'moon' && (
+    <svg class={klass} viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M22 4a12 12 0 1 0 6 18A13 13 0 0 1 22 4Z" stroke-linejoin="round" />
+      <path d="M7 6.5 7.8 9 10 9.8 7.8 10.6 7 13l-.8-2.4L4 9.8 6.2 9zM26 8l.6 1.7 1.6.6-1.6.6L26 12.6l-.6-1.7-1.6-.6 1.6-.6z" fill="currentColor" stroke="none" opacity=".8" />
+    </svg>
+  )
+}
+{
+  name === 'crystal' && (
+    <svg class={klass} viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M16 2 8 13l8 17 8-17z" stroke-linejoin="round" />
+      <path d="M8 13h16M16 2v28" opacity=".5" />
+    </svg>
+  )
+}
+{
+  name === 'leaf' && (
+    <svg class={klass} viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M27 4C13 4 5 11 5 21c0 3 1 5 3 7 8-1 19-6 19-24Z" stroke-linejoin="round" />
+      <path d="M24 7C16 12 11 19 8 28" stroke-linecap="round" opacity=".6" />
+    </svg>
+  )
+}
+{
+  name === 'diamond' && (
+    <svg class={klass} viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+      <path d="M6 0 12 6 6 12 0 6z" />
+    </svg>
+  )
+}
+{
+  name === 'corner' && (
+    <svg class={klass} viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+      <path d="M1 14V1h13" />
+      <path d="M5 24c0-10 9-19 19-19" opacity=".8" />
+      <path d="M1 32c9 0 16-4 20-11 3-5 6-8 11-9" opacity=".55" />
+      <circle cx="9" cy="9" r="1.8" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}

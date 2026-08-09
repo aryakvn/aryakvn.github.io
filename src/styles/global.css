@@ -1,0 +1,377 @@
+/* ------------------------------------------------------------------
+   The Deck — design tokens
+   Ground: dark oiled table. Cards: aged cotton paper. Ink: gold leaf.
+------------------------------------------------------------------ */
+
+:root {
+  /* colour */
+  --ink: #0b0a08;
+  --ink-raise: #12100b;
+  --ink-line: #241f16;
+  --paper: #e7dcc0;
+  --paper-warm: #f2e9d3;
+  --paper-shade: #c3b391;
+  --paper-ink: #1b1610;
+  --gold: #c9a227;
+  --gold-soft: #a3862f;
+  --gold-dim: #6d5a24;
+  --verd: #6d8a63;
+  --ember: #c2662c;
+  --text: #ded3ba;
+  --text-dim: #8e856e;
+
+  /* type */
+  --display: 'Grenze', 'Iowan Old Style', Georgia, serif;
+  --body: 'Spectral', Georgia, 'Times New Roman', serif;
+  --mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* metrics */
+  --measure: 66ch;
+  --shell: 1120px;
+  --gutter: clamp(1.25rem, 5vw, 3.5rem);
+  --rule: 1px solid var(--ink-line);
+  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+
+  /* cotton paper grain, inlined so it costs no request */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+:root[dir='rtl'] {
+  --display: 'Vazirmatn', 'Grenze', serif;
+  --body: 'Vazirmatn', 'Spectral', serif;
+  --mono: 'Vazirmatn', 'Space Mono', monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--ink);
+  background-image:
+    radial-gradient(120% 80% at 50% -10%, #16130d 0%, transparent 60%),
+    radial-gradient(90% 60% at 50% 110%, #14110c 0%, transparent 55%);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.075rem);
+  line-height: 1.72;
+  overflow-x: hidden;
+}
+
+/* the table has a texture too, just barely */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--paper);
+  text-decoration-color: var(--gold-dim);
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+  transition: color 0.25s var(--ease), text-decoration-color 0.25s var(--ease);
+}
+
+a:hover {
+  color: var(--gold);
+  text-decoration-color: var(--gold);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------
+   Type roles
+--------------------------------------------------------------- */
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  line-height: 1.06;
+  margin: 0;
+  color: var(--paper-warm);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.dim {
+  color: var(--text-dim);
+}
+
+.lede {
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem);
+  line-height: 1.6;
+  color: var(--paper);
+  max-width: 34ch;
+  margin-inline: auto;
+}
+
+/* ---------------------------------------------------------------
+   Page frame — the tarot border, reduced to hairlines and corners
+--------------------------------------------------------------- */
+
+.frame {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.frame::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(201, 162, 39, 0.22);
+}
+
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 19px;
+  border: 1px solid rgba(201, 162, 39, 0.09);
+}
+
+.frame svg {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  color: var(--gold);
+  opacity: 0.5;
+}
+
+.frame .c-tl { top: 10px; left: 10px; }
+.frame .c-tr { top: 10px; right: 10px; transform: scaleX(-1); }
+.frame .c-bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+.frame .c-br { bottom: 10px; right: 10px; transform: scale(-1); }
+
+@media (max-width: 640px) {
+  .frame { display: none; }
+}
+
+/* ---------------------------------------------------------------
+   Shell + sections
+--------------------------------------------------------------- */
+
+.shell {
+  position: relative;
+  z-index: 1;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(4.5rem, 9vw, 8rem);
+  border-top: var(--rule);
+}
+
+.section:first-of-type {
+  border-top: 0;
+}
+
+/* Arcana numbering: sections really are an ordered deck, so the
+   numerals carry order, not decoration. */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.section-head .numeral {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  padding: 0.3em 0.6em;
+  flex: none;
+  line-height: 1;
+}
+
+.section-head h2 {
+  font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.6rem);
+  letter-spacing: 0.01em;
+}
+
+.section-head .note {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-inline-start: auto;
+  text-align: end;
+}
+
+@media (max-width: 640px) {
+  .section-head .note { display: none; }
+}
+
+/* ---------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--paper-warm);
+  padding: 0.85em 1.5em;
+  border: 1px solid var(--gold-dim);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.3s var(--ease), border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+.btn:hover {
+  color: var(--ink);
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.btn--solid {
+  color: var(--ink);
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.btn--solid:hover {
+  background: var(--paper-warm);
+  border-color: var(--paper-warm);
+}
+
+/* ---------------------------------------------------------------
+   Card surface — the recurring object of the whole site
+--------------------------------------------------------------- */
+
+.card {
+  position: relative;
+  background: var(--ink-raise);
+  border: 1px solid var(--ink-line);
+  padding: clamp(1.4rem, 2.5vw, 2rem);
+  transition: transform 0.45s var(--ease), border-color 0.45s var(--ease),
+    background 0.45s var(--ease);
+}
+
+/* corner notches, like a cut card */
+.card::before,
+.card::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--gold-dim);
+  transition: border-color 0.45s var(--ease);
+}
+
+.card::before {
+  top: 7px;
+  inset-inline-start: 7px;
+  border-inline-end: 0;
+  border-bottom: 0;
+}
+
+.card::after {
+  bottom: 7px;
+  inset-inline-end: 7px;
+  border-inline-start: 0;
+  border-top: 0;
+}
+
+.card:hover,
+.card:focus-within {
+  border-color: var(--gold-dim);
+  background: #171309;
+}
+
+.card:hover::before,
+.card:focus-within::before,
+.card:hover::after,
+.card:focus-within::after {
+  border-color: var(--gold);
+}
+
+/* ---------------------------------------------------------------
+   Utilities
+--------------------------------------------------------------- */
+
+.stack > * + * {
+  margin-block-start: var(--stack-gap, 1rem);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.rule-orn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--gold-dim);
+}
+
+.rule-orn::before,
+.rule-orn::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, var(--ink-line), transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

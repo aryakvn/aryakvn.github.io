@@ -1,0 +1,788 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import plate from '../assets/the-tinkerer.png';
+import EntryCard from './EntryCard.astro';
+import Glyph from './Glyph.astro';
+import { photos, site, socials } from '../config';
+import { t, forLocale, type Locale } from '../i18n';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const copy = t(lang);
+
+const byOrder = <T extends { data: { order: number } }>(a: T, b: T) => a.data.order - b.data.order;
+
+const load = async (name: 'work' | 'research' | 'writing') => {
+  const entries = forLocale(await getCollection(name), lang).sort(byOrder);
+  return Promise.all(
+    entries.map(async (entry) => ({ ...entry, Content: (await render(entry)).Content })),
+  );
+};
+
+const [work, research, writing] = await Promise.all([load('work'), load('research'), load('writing')]);
+---
+
+<!-- ┌───────────────────────────────────────────────┐
+     │  Everything has a mechanism. This one is HTML. │
+     └───────────────────────────────────────────────┘ -->
+
+<section class="hero shell">
+  <p class="hero__arcana">
+    <span>{copy.hero.arcana}</span>
+    <Glyph name="diamond" class="hero__gem" />
+    <span>{copy.hero.cardName}</span>
+  </p>
+
+  <figure class="plate">
+    <div class="plate__inner">
+      <Image src={plate} alt={copy.hero.imageAlt} widths={[560, 900, 1400]} sizes="(max-width: 900px) 92vw, 860px" loading="eager" fetchpriority="high" />
+      <span class="plate__foil" aria-hidden="true"></span>
+    </div>
+  </figure>
+
+  <h1 class="hero__name">{copy.hero.name}</h1>
+  <p class="hero__role label">{copy.hero.role}</p>
+
+  <p class="hero__tagline">{copy.hero.tagline}</p>
+  <p class="hero__intro lede">{copy.hero.intro}</p>
+
+  <div class="hero__cta">
+    <a class="btn btn--solid" href="#work">{copy.hero.ctaWork}</a>
+    <a class="btn" href="#research">{copy.hero.ctaResearch}</a>
+  </div>
+
+  <ul class="hero__domains">
+    {copy.hero.domains.map((d) => <li>{d}</li>)}
+  </ul>
+</section>
+
+<section class="section shell" id="about">
+  <div class="section-head">
+    <span class="numeral">{copy.about.numeral}</span>
+    <h2>{copy.about.title}</h2>
+    <span class="note">{copy.about.note}</span>
+  </div>
+
+  <div class="sheet">
+    <div class="sheet__prose stack">
+      {copy.about.body.map((p) => <p>{p}</p>)}
+
+      <div class="creed">
+        <p class="label">{copy.about.creedTitle}</p>
+        <ol>
+          {copy.about.creed.map((line) => <li>{line}</li>)}
+        </ol>
+      </div>
+    </div>
+
+    <div class="card sheet__stats">
+      <p class="label">{copy.about.statsTitle}</p>
+      <dl>
+        {
+          copy.about.stats.map((row) => (
+            <div class="stat">
+              <dt>{row.k}</dt>
+              <span class="stat__leader" aria-hidden="true" />
+              <dd>{row.v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section shell" id="suits">
+  <div class="section-head">
+    <span class="numeral">{copy.suits.numeral}</span>
+    <h2>{copy.suits.title}</h2>
+    <span class="note">{copy.suits.note}</span>
+  </div>
+
+  <p class="section-intro">{copy.suits.intro}</p>
+
+  <ul class="suits">
+    {
+      copy.suits.items.map((suit) => (
+        <li class="card suit">
+          <Glyph name={suit.glyph as 'bolt'} class="suit__glyph" />
+          <h3 class="suit__name">{suit.name}</h3>
+          <p class="suit__sub label">{suit.sub}</p>
+          <p class="suit__line">{suit.line}</p>
+          <ul class="suit__tags">
+            {suit.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<section class="section shell" id="work">
+  <div class="section-head">
+    <span class="numeral">{copy.work.numeral}</span>
+    <h2>{copy.work.title}</h2>
+    <span class="note">{copy.work.note}</span>
+  </div>
+
+  <p class="section-intro">{copy.work.intro}</p>
+
+  {
+    work.length === 0 ? (
+      <p class="empty">{copy.work.empty}</p>
+    ) : (
+      <div class="spread">
+        {work.map(({ data, Content }, i) => (
+          <EntryCard
+            title={data.title}
+            question={data.question}
+            year={data.year}
+            tags={data.tags}
+            suit={data.suit}
+            link={data.link}
+            linkLabel={data.linkLabel}
+            style={`--tilt:${i % 2 === 0 ? '-0.5' : '0.55'}deg`}
+          >
+            <Content />
+          </EntryCard>
+        ))}
+      </div>
+    )
+  }
+</section>
+
+<section class="section shell" id="research">
+  <div class="section-head">
+    <span class="numeral">{copy.research.numeral}</span>
+    <h2>{copy.research.title}</h2>
+    <span class="note">{copy.research.note}</span>
+  </div>
+
+  {
+    research.length === 0 ? (
+      <p class="empty">{copy.research.empty}</p>
+    ) : (
+      <div class="spread spread--single">
+        {research.map(({ data, Content }) => (
+          <EntryCard
+            paper
+            title={data.title}
+            question={data.question}
+            year={data.year}
+            venue={data.venue}
+            tags={data.tags}
+            link={data.link}
+            linkLabel={data.linkLabel}
+          >
+            <Content />
+          </EntryCard>
+        ))}
+      </div>
+    )
+  }
+</section>
+
+<section class="section shell" id="writing">
+  <div class="section-head">
+    <span class="numeral">{copy.writing.numeral}</span>
+    <h2>{copy.writing.title}</h2>
+    <span class="note">{copy.writing.note}</span>
+  </div>
+
+  <p class="section-intro">{copy.writing.intro}</p>
+
+  {
+    writing.length === 0 ? (
+      <p class="empty">{copy.writing.empty}</p>
+    ) : (
+      <ul class="codex">
+        {writing.map(({ data, Content }) => (
+          <li class="codex__row">
+            <span class="codex__date">{data.date}</span>
+            <div class="codex__main">
+              <h3>
+                {data.link ? (
+                  <a href={data.link} target="_blank" rel="noopener">
+                    {data.title}
+                  </a>
+                ) : (
+                  data.title
+                )}
+              </h3>
+              <div class="codex__blurb">
+                <Content />
+              </div>
+            </div>
+            <span class="codex__tags">{data.tags.join(' · ')}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>
+
+<section class="section shell" id="photos">
+  <div class="section-head">
+    <span class="numeral">{copy.photos.numeral}</span>
+    <h2>{copy.photos.title}</h2>
+    <span class="note">{copy.photos.note}</span>
+  </div>
+
+  <p class="section-intro">{copy.photos.intro}</p>
+
+  {
+    photos.length === 0 ? (
+      <p class="empty">{copy.photos.empty}</p>
+    ) : (
+      <ul class="plates">
+        {photos.map((photo) => (
+          <li class="plates__item">
+            <img src={photo.src} alt={photo.caption} loading="lazy" />
+            <figcaption>
+              <span>{photo.caption}</span>
+              <span class="dim">{photo.year}</span>
+            </figcaption>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>
+
+<section class="section shell" id="contact">
+  <div class="section-head">
+    <span class="numeral">{copy.contact.numeral}</span>
+    <h2>{copy.contact.title}</h2>
+    <span class="note">{copy.contact.note}</span>
+  </div>
+
+  <div class="contact">
+    <div class="contact__main stack">
+      <p class="lede contact__intro">{copy.contact.intro}</p>
+      <a class="btn btn--solid" href={`mailto:${site.email}`}>{copy.contact.emailLabel}</a>
+    </div>
+
+    <ul class="contact__links">
+      {
+        socials.map((s) => (
+          <li>
+            <a href={s.href} target="_blank" rel="me noopener">
+              <span>{s.label}</span>
+              <span class="dim">{s.handle}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- the card trick. it is not a real trick. -->
+    <div class="trick">
+      <button class="trick__card" type="button" data-trick>
+        <span class="trick__face trick__face--back">
+          <span class="trick__pattern" aria-hidden="true"></span>
+          <span class="trick__prompt">{copy.trick.prompt}</span>
+        </span>
+        <span class="trick__face trick__face--front" data-trick-text aria-live="polite"></span>
+      </button>
+      <p class="trick__hint label" data-trick-hint>{copy.trick.hint}</p>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ lines: copy.trick.lines, again: copy.trick.again, hint: copy.trick.hint }}>
+  const card = document.querySelector('[data-trick]');
+  const text = document.querySelector('[data-trick-text]');
+  const hint = document.querySelector('[data-trick-hint]');
+  let drawn = -1;
+
+  card?.addEventListener('click', () => {
+    if (card.classList.contains('is-drawn')) {
+      card.classList.remove('is-drawn');
+      hint.textContent = hint.dataset.original ?? hint.textContent;
+      return;
+    }
+    let next = drawn;
+    while (next === drawn && lines.length > 1) next = Math.floor(Math.random() * lines.length);
+    drawn = next;
+    text.textContent = lines[next];
+    card.classList.add('is-drawn');
+    if (!hint.dataset.original) hint.dataset.original = hint.textContent;
+    hint.textContent = again;
+  });
+</script>
+
+<style>
+  /* ---------------- hero ---------------- */
+  .hero {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(4rem, 8vw, 7rem);
+    text-align: center;
+  }
+
+  .hero__arcana {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin: 0 0 1.6rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+    --glyph-size: 7px;
+  }
+
+  .plate {
+    margin: 0 auto 2.4rem;
+    max-width: 860px;
+  }
+  .plate__inner {
+    position: relative;
+    padding: 10px;
+    border: 1px solid var(--gold-soft);
+    outline: 1px solid rgba(201, 162, 39, 0.22);
+    outline-offset: 5px;
+    background: linear-gradient(150deg, #2a2213, #14110b 60%);
+    overflow: hidden;
+  }
+  .plate img {
+    width: 100%;
+    filter: saturate(0.94) contrast(1.02);
+  }
+  /* gold leaf catching the light — the one indulgent motion on the page */
+  .plate__foil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 38%,
+      rgba(255, 238, 190, 0.16) 46%,
+      rgba(255, 246, 214, 0.28) 50%,
+      rgba(255, 238, 190, 0.16) 54%,
+      transparent 62%
+    );
+    background-size: 260% 100%;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    animation: foil 11s var(--ease) infinite;
+  }
+  @keyframes foil {
+    0%,
+    18% {
+      background-position: 160% 0;
+    }
+    72%,
+    100% {
+      background-position: -60% 0;
+    }
+  }
+
+  .hero__name {
+    font-size: clamp(2.6rem, 1.6rem + 5vw, 5.2rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--paper-warm);
+  }
+  .hero__role {
+    margin: 0.9rem 0 0;
+  }
+  .hero__tagline {
+    font-family: var(--display);
+    font-size: clamp(1.3rem, 1rem + 1.4vw, 2rem);
+    font-style: italic;
+    color: var(--gold);
+    margin: 2.2rem 0 1rem;
+  }
+  .hero__intro {
+    margin-block: 0 2.4rem;
+  }
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    justify-content: center;
+  }
+  .hero__domains {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.4rem;
+    list-style: none;
+    margin: 3rem 0 0;
+    padding: 0;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .hero__domains li + li {
+    position: relative;
+  }
+  .hero__domains li + li::before {
+    content: '·';
+    position: absolute;
+    inset-inline-start: -0.85rem;
+    color: var(--gold-dim);
+  }
+
+  /* ---------------- shared section bits ---------------- */
+  .section-intro {
+    max-width: 52ch;
+    margin: -1rem 0 2.5rem;
+    color: var(--text-dim);
+  }
+  .empty {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    border: 1px dashed var(--ink-line);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  /* ---------------- character sheet ---------------- */
+  .sheet {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .sheet__prose {
+    --stack-gap: 1.25rem;
+    max-width: var(--measure);
+  }
+  .sheet__prose p {
+    margin: 0;
+  }
+  .sheet__prose p + p {
+    margin-top: 1.35rem;
+  }
+  .sheet__prose p:last-of-type {
+    color: var(--paper);
+    font-style: italic;
+  }
+
+  .creed {
+    margin-top: 2.5rem;
+    border-inline-start: 1px solid var(--gold-dim);
+    padding-inline-start: 1.4rem;
+  }
+  .creed ol {
+    list-style: none;
+    margin: 0.8rem 0 0;
+    padding: 0;
+    font-family: var(--display);
+    font-size: clamp(1.2rem, 1rem + 0.9vw, 1.7rem);
+    line-height: 1.35;
+    color: var(--paper-warm);
+  }
+  .creed li + li {
+    color: color-mix(in srgb, var(--paper-warm) 85%, var(--ink));
+  }
+
+  .sheet__stats dl {
+    margin: 1.2rem 0 0;
+  }
+  .stat {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding-block: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+  }
+  .stat + .stat {
+    border-top: 1px solid rgba(255, 255, 255, 0.035);
+  }
+  .stat dt {
+    flex: none;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .stat__leader {
+    flex: 1;
+    height: 0;
+    border-bottom: 1px dotted rgba(201, 162, 39, 0.22);
+    transform: translateY(-0.25em);
+  }
+  .stat dd {
+    margin: 0;
+    text-align: end;
+    color: var(--paper);
+    overflow-wrap: anywhere;
+  }
+  /* when the row runs out of room the value drops below the leader */
+  .stat__leader {
+    min-width: 1.5rem;
+  }
+
+  /* ---------------- suits ---------------- */
+  .suits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+  }
+  .suit {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    --glyph-size: 28px;
+    --glyph-color: var(--gold-soft);
+  }
+  .suit:hover {
+    --glyph-color: var(--gold);
+  }
+  .suit :global(svg) {
+    margin-bottom: 0.5rem;
+  }
+  .suit__name {
+    font-size: 1.5rem;
+  }
+  .suit__sub {
+    margin: 0;
+    color: var(--verd);
+  }
+  .suit__line {
+    margin: 0.4rem 0 0;
+    font-size: 0.94rem;
+    color: var(--text-dim);
+  }
+  .suit__tags {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0.9rem 0 0;
+    border-top: 1px dashed var(--ink-line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.8rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ---------------- spreads ---------------- */
+  .spread {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+  }
+  .spread--single {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 780px;
+  }
+
+  /* ---------------- codex ---------------- */
+  .codex {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: var(--rule);
+  }
+  .codex__row {
+    display: grid;
+    grid-template-columns: 6ch minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding-block: 1.6rem;
+    border-bottom: var(--rule);
+    transition: background 0.35s var(--ease);
+  }
+  .codex__row:hover {
+    background: rgba(201, 162, 39, 0.035);
+  }
+  .codex__date,
+  .codex__tags {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .codex__main h3 {
+    font-size: clamp(1.2rem, 1rem + 0.7vw, 1.5rem);
+  }
+  .codex__main h3 a {
+    text-decoration: none;
+  }
+  .codex__blurb {
+    color: var(--text-dim);
+    font-size: 0.94rem;
+    max-width: 60ch;
+  }
+  .codex__blurb :global(p) {
+    margin: 0.4rem 0 0;
+  }
+
+  @media (max-width: 720px) {
+    .codex__row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+
+  /* ---------------- plates ---------------- */
+  .plates {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .plates__item {
+    border: 1px solid var(--ink-line);
+    padding: 8px;
+  }
+  .plates__item figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ---------------- contact + trick ---------------- */
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.75fr) auto;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .contact__main {
+    --stack-gap: 1.8rem;
+  }
+  .contact__intro {
+    margin-inline: 0;
+    max-width: 30ch;
+  }
+  .contact__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: var(--rule);
+  }
+  .contact__links a {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.85rem;
+    border-bottom: var(--rule);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .trick {
+    text-align: center;
+  }
+  .trick__card {
+    position: relative;
+    width: 168px;
+    height: 252px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.75s var(--ease);
+  }
+  .trick__card.is-drawn {
+    transform: rotateY(180deg);
+  }
+  .trick__face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 1.2rem;
+    backface-visibility: hidden;
+    border: 1px solid var(--gold-soft);
+    overflow: hidden;
+  }
+  .trick__face--back {
+    background: linear-gradient(150deg, #1d1809, #0f0c07);
+  }
+  .trick__pattern {
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201, 162, 39, 0.3);
+    background-image:
+      repeating-conic-gradient(from 45deg, rgba(201, 162, 39, 0.16) 0deg 8deg, transparent 8deg 16deg);
+    background-size: 22px 22px;
+    opacity: 0.75;
+  }
+  .trick__prompt {
+    position: relative;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--ink);
+    padding: 0.5em 0.8em;
+    border: 1px solid var(--gold-dim);
+  }
+  .trick__face--front {
+    transform: rotateY(180deg);
+    background:
+      var(--grain) repeat,
+      linear-gradient(160deg, var(--paper-warm), var(--paper) 60%, var(--paper-shade));
+    background-blend-mode: multiply, normal;
+    color: var(--paper-ink);
+    font-family: var(--display);
+    font-size: 1.05rem;
+    line-height: 1.35;
+    text-align: center;
+  }
+  .trick__hint {
+    margin: 1rem 0 0;
+    color: var(--text-dim);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .trick__card {
+      transform-style: flat;
+    }
+    .trick__card.is-drawn {
+      transform: none;
+    }
+    .trick__card.is-drawn .trick__face--back {
+      opacity: 0;
+    }
+    .trick__face--front {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .sheet,
+    .contact {
+      grid-template-columns: 1fr;
+    }
+    .trick {
+      justify-self: start;
+    }
+  }
+</style>

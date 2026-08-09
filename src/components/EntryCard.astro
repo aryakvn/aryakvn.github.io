@@ -1,0 +1,201 @@
+---
+import Glyph from './Glyph.astro';
+
+interface Props {
+  title: string;
+  question: string;
+  year: string;
+  tags?: string[];
+  suit?: 'bolt' | 'moon' | 'crystal' | 'leaf';
+  venue?: string;
+  link?: string;
+  linkLabel?: string;
+  paper?: boolean;
+  /** carries the hand-laid `--tilt` custom property */
+  style?: string;
+}
+const { title, question, year, tags = [], suit, venue, link, linkLabel, paper, style } = Astro.props;
+---
+
+<article class:list={['card', 'entry', paper && 'entry--paper']} style={style}>
+  <header class="entry__head">
+    <div class="entry__marks">
+      <span class="entry__year">{year}</span>
+      {venue && <span class="entry__venue">{venue}</span>}
+    </div>
+    {suit && <Glyph name={suit} class="entry__suit" />}
+  </header>
+
+  <h3 class="entry__title">{title}</h3>
+  <p class="entry__question">{question}</p>
+
+  <div class="entry__body">
+    <slot />
+  </div>
+
+  <footer class="entry__foot">
+    {
+      tags.length > 0 && (
+        <ul class="entry__tags">
+          {tags.map((tag) => (
+            <li>{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      link && (
+        <a class="entry__link" href={link} target="_blank" rel="noopener">
+          {linkLabel ?? 'Open'} <span aria-hidden="true">↗</span>
+        </a>
+      )
+    }
+  </footer>
+</article>
+
+<style>
+  .entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    /* laid on a table by hand, not aligned by a machine */
+    transform: rotate(var(--tilt, 0deg));
+  }
+  .entry:hover,
+  .entry:focus-within {
+    transform: rotate(0deg) translateY(-4px);
+  }
+
+  .entry__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .entry__marks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.9rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+  }
+  .entry__venue {
+    color: var(--text-dim);
+  }
+  .entry__head {
+    --glyph-size: 22px;
+    --glyph-color: var(--gold-dim);
+  }
+  .entry:hover .entry__head,
+  .entry:focus-within .entry__head {
+    --glyph-color: var(--gold);
+  }
+
+  .entry__title {
+    font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.85rem);
+  }
+  .entry__question {
+    margin: 0;
+    font-style: italic;
+    color: var(--paper);
+    max-width: 46ch;
+  }
+  .entry__body {
+    color: var(--text-dim);
+    max-width: 56ch;
+  }
+  .entry__body :global(p) {
+    margin: 0 0 0.8em;
+  }
+  .entry__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .entry__foot {
+    margin-top: auto;
+    padding-top: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.2rem;
+    border-top: 1px dashed var(--ink-line);
+  }
+  .entry__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .entry__tags li {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--ink-line);
+    padding: 0.25em 0.6em;
+  }
+  .entry__link {
+    margin-inline-start: auto;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  /* The research card is printed on paper — it carries more weight. */
+  .entry--paper {
+    background:
+      var(--grain) repeat,
+      linear-gradient(160deg, var(--paper-warm), var(--paper) 55%, var(--paper-shade));
+    background-blend-mode: multiply, normal;
+    border-color: var(--gold-soft);
+    color: color-mix(in srgb, var(--paper-ink) 78%, transparent);
+  }
+  .entry--paper:hover,
+  .entry--paper:focus-within {
+    background:
+      var(--grain) repeat,
+      linear-gradient(160deg, var(--paper-warm), var(--paper) 55%, var(--paper-shade));
+    background-blend-mode: multiply, normal;
+    border-color: var(--gold);
+  }
+  .entry--paper .entry__title {
+    color: var(--paper-ink);
+  }
+  .entry--paper .entry__question {
+    color: color-mix(in srgb, var(--paper-ink) 90%, transparent);
+  }
+  .entry--paper .entry__marks {
+    color: #6d5518;
+  }
+  .entry--paper .entry__venue,
+  .entry--paper .entry__body {
+    color: color-mix(in srgb, var(--paper-ink) 70%, transparent);
+  }
+  .entry--paper .entry__head {
+    --glyph-color: #8a6b22;
+  }
+  .entry--paper .entry__foot {
+    border-top-color: rgba(27, 22, 16, 0.25);
+  }
+  .entry--paper .entry__tags li {
+    border-color: rgba(27, 22, 16, 0.25);
+    color: color-mix(in srgb, var(--paper-ink) 65%, transparent);
+  }
+  .entry--paper .entry__link {
+    color: #7a5c15;
+  }
+  .entry--paper::before,
+  .entry--paper::after {
+    border-color: rgba(27, 22, 16, 0.35);
+  }
+</style>

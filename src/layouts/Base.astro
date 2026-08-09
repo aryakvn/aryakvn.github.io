@@ -1,0 +1,319 @@
+---
+import '../styles/global.css';
+import Glyph from '../components/Glyph.astro';
+import { site, socials } from '../config';
+import { LOCALES, t, dir, href, type Locale } from '../i18n';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const copy = t(lang);
+const direction = dir(lang);
+const buildId = new Date().toISOString().slice(0, 7).replace('-', '.');
+
+const nav = [
+  { id: 'work', label: copy.nav.work },
+  { id: 'research', label: copy.nav.research },
+  { id: 'writing', label: copy.nav.writing },
+  { id: 'contact', label: copy.nav.contact },
+];
+
+const fontFamilies = [
+  'family=Grenze:wght@400;700',
+  'family=Spectral:ital,wght@0,400;0,500;1,400',
+  'family=Space+Mono:wght@400;700',
+  ...(direction === 'rtl' ? ['family=Vazirmatn:wght@400;500;700'] : []),
+];
+const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&display=swap`;
+---
+
+<!doctype html>
+<html lang={lang} dir={direction}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{copy.meta.title}</title>
+    <meta name="description" content={copy.meta.description} />
+    <meta name="theme-color" content="#0b0a08" />
+    <meta property="og:title" content={copy.meta.title} />
+    <meta property="og:description" content={copy.meta.description} />
+    <meta property="og:type" content="profile" />
+    <link rel="canonical" href={new URL(href(lang), Astro.site ?? 'https://example.com').toString()} />
+    {
+      LOCALES.map((l) => (
+        <link rel="alternate" hreflang={l} href={new URL(href(l), Astro.site ?? 'https://example.com').toString()} />
+      ))
+    }
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fontHref} />
+  </head>
+
+  <body>
+    <a class="skip" href="#main">{copy.nav.skip}</a>
+
+    <div class="frame" aria-hidden="true">
+      <Glyph name="corner" class="c-tl" />
+      <Glyph name="corner" class="c-tr" />
+      <Glyph name="corner" class="c-bl" />
+      <Glyph name="corner" class="c-br" />
+    </div>
+
+    <header class="topbar">
+      <div class="topbar__inner shell">
+        <a class="mark" href={href(lang)} aria-label={site.author}>
+          <Glyph name="diamond" class="mark__gem" />
+          <span>{site.initials}</span>
+        </a>
+
+        <nav class="topnav" aria-label={copy.meta.title}>
+          {nav.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}
+        </nav>
+
+        <div class="langs" role="group" aria-label={copy.nav.language}>
+          {
+            LOCALES.map((l) => (
+              <a href={href(l)} lang={l} aria-current={l === lang ? 'true' : undefined}>
+                {t(l).meta.langName}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="colophon">
+      <div class="shell colophon__inner">
+        <div class="colophon__block">
+          <p class="label">{copy.footer.colophon}</p>
+          <p class="dim">{copy.footer.builtWith}</p>
+        </div>
+        <dl class="colophon__meta">
+          <div>
+            <dt class="label">{copy.footer.localTime}</dt>
+            <dd data-clock aria-live="off">--:--</dd>
+          </div>
+          <div>
+            <dt class="label">{copy.footer.status}</dt>
+            <dd>{copy.footer.statusValue}</dd>
+          </div>
+          <div>
+            <dt class="label">{copy.footer.build}</dt>
+            <dd>{buildId}</dd>
+          </div>
+        </dl>
+        <ul class="colophon__links">
+          {
+            socials.map((s) => (
+              <li>
+                <a href={s.href} rel="me noopener" target="_blank">
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="colophon__rights dim">
+          © {new Date().getFullYear()} {site.author}. {copy.footer.rights}
+        </p>
+      </div>
+    </footer>
+
+    <script is:inline define:vars={{ tz: site.timezone, lang }}>
+      // The clock is Arya's local time, not the visitor's — that's the point.
+      const el = document.querySelector('[data-clock]');
+      if (el) {
+        const fmt = new Intl.DateTimeFormat(lang === 'fa' ? 'fa-IR' : 'en-GB', {
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: tz,
+        });
+        const tick = () => (el.textContent = fmt.format(new Date()));
+        tick();
+        setInterval(tick, 20000);
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    inset-inline-start: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 0.7em 1.2em;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+  .skip:focus {
+    inset-inline-start: 0;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: color-mix(in srgb, var(--ink) 82%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid transparent;
+  }
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 3.75rem;
+  }
+
+  .mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
+    color: var(--paper-warm);
+    --glyph-size: 8px;
+    --glyph-color: var(--gold);
+  }
+  .mark:hover {
+    --glyph-color: var(--ember);
+  }
+
+  .topnav {
+    display: flex;
+    gap: 1.4rem;
+    margin-inline: auto;
+  }
+  .topnav a {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+  .topnav a:hover {
+    color: var(--gold);
+  }
+
+  .langs {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .langs a {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+  .langs a[aria-current] {
+    color: var(--gold);
+  }
+  .langs a + a::before {
+    content: '/';
+    color: var(--ink-line);
+    margin-inline-end: 0.75rem;
+  }
+
+  @media (max-width: 720px) {
+    .topnav {
+      display: none;
+    }
+    .langs {
+      margin-inline-start: auto;
+    }
+  }
+
+  .colophon {
+    position: relative;
+    z-index: 1;
+    border-top: var(--rule);
+    padding-block: 3rem 4rem;
+    font-size: 0.9rem;
+  }
+  .colophon__inner {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+    align-items: start;
+  }
+  .colophon__block p {
+    margin: 0;
+  }
+  .colophon__block .dim {
+    margin-top: 0.6rem;
+    max-width: 30ch;
+  }
+  .colophon__meta {
+    display: grid;
+    gap: 0.7rem;
+    margin: 0;
+  }
+  .colophon__meta div {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+  }
+  .colophon__meta dt {
+    min-width: 8.5ch;
+  }
+  .colophon__meta dd {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--paper);
+  }
+  .colophon__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+    text-align: end;
+  }
+  .colophon__links a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-dim);
+  }
+  .colophon__links a:hover {
+    color: var(--gold);
+  }
+  .colophon__rights {
+    grid-column: 1 / -1;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    margin: 0;
+    padding-top: 1.5rem;
+    border-top: var(--rule);
+  }
+
+  @media (max-width: 860px) {
+    .colophon__inner {
+      grid-template-columns: 1fr;
+    }
+    .colophon__links {
+      text-align: start;
+      grid-auto-flow: column;
+      justify-content: start;
+      gap: 1.2rem;
+    }
+  }
+</style>
