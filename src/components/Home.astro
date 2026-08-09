@@ -43,20 +43,25 @@ const [work, research, writing] = await Promise.all([load('work'), load('researc
     </div>
   </figure>
 
-  <h1 class="hero__name">{copy.hero.name}</h1>
-  <p class="hero__role label">{copy.hero.role}</p>
+  <!-- The scroll tween drives this wrapper; the intro drives its children.
+       Two animations on one property is how a scrub ends up with a garbage
+       baseline. -->
+  <div class="hero__type">
+    <h1 class="hero__name">{copy.hero.name}</h1>
+    <p class="hero__role label">{copy.hero.role}</p>
 
-  <p class="hero__tagline">{copy.hero.tagline}</p>
-  <p class="hero__intro lede">{copy.hero.intro}</p>
+    <p class="hero__tagline">{copy.hero.tagline}</p>
+    <p class="hero__intro lede">{copy.hero.intro}</p>
 
-  <div class="hero__cta">
-    <a class="btn btn--solid" href="#work">{copy.hero.ctaWork}</a>
-    <a class="btn" href="#research">{copy.hero.ctaResearch}</a>
+    <div class="hero__cta">
+      <a class="btn btn--solid" href="#work">{copy.hero.ctaWork}</a>
+      <a class="btn" href="#research">{copy.hero.ctaResearch}</a>
+    </div>
+
+    <ul class="hero__domains">
+      {copy.hero.domains.map((d) => <li>{d}</li>)}
+    </ul>
   </div>
-
-  <ul class="hero__domains">
-    {copy.hero.domains.map((d) => <li>{d}</li>)}
-  </ul>
 </section>
 
 <section class="section shell" id="about">
@@ -295,15 +300,17 @@ const [work, research, writing] = await Promise.all([load('work'), load('researc
 </section>
 
 <script is:inline define:vars={{ lines: copy.trick.lines, again: copy.trick.again, hint: copy.trick.hint }}>
+  // `hint`, `again` and `lines` are declared for us by define:vars — don't
+  // shadow them here or the whole script dies with a SyntaxError.
   const card = document.querySelector('[data-trick]');
   const text = document.querySelector('[data-trick-text]');
-  const hint = document.querySelector('[data-trick-hint]');
+  const hintEl = document.querySelector('[data-trick-hint]');
   let drawn = -1;
 
   card?.addEventListener('click', () => {
     if (card.classList.contains('is-drawn')) {
       card.classList.remove('is-drawn');
-      hint.textContent = hint.dataset.original ?? hint.textContent;
+      hintEl.textContent = hint;
       return;
     }
     let next = drawn;
@@ -311,8 +318,7 @@ const [work, research, writing] = await Promise.all([load('work'), load('researc
     drawn = next;
     text.textContent = lines[next];
     card.classList.add('is-drawn');
-    if (!hint.dataset.original) hint.dataset.original = hint.textContent;
-    hint.textContent = again;
+    hintEl.textContent = again;
   });
 </script>
 

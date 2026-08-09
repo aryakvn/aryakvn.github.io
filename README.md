@@ -33,9 +33,21 @@ scroll rail.
 | Codex lines arrive from the reading edge (flips in RTL) | `codex()` |
 | Half-flip tease on the trick card | `trickTease()` |
 | Gold scroll rail across the top | `rail()` |
+| Smooth anchor jumps, offset for the sticky header | `smoothAnchors()` |
 
-Animations that touch elements with CSS hover states call `clearProps` when
-they finish, so GSAP's inline transforms don't outrank the stylesheet.
+Three rules this file follows, each of which was a bug once:
+
+- **No two animations on the same property of the same element.** The overture
+  animates the individual hero lines; the scroll tween animates the
+  `.hero__type` wrapper around them. When both touched the same elements, the
+  scrubbed tween recorded its start values mid-intro and animated from
+  whatever opacity the fade happened to be at.
+- **`clearProps` when a tween finishes on anything with a CSS hover state**,
+  so GSAP's inline transform doesn't outrank the stylesheet.
+- **No `scroll-behavior: smooth` in CSS** — it fights ScrollTrigger's scrub.
+  Anchor scrolling goes through ScrollToPlugin instead. For the same reason
+  `body` uses `overflow-x: clip` rather than `hidden`: `hidden` makes the body
+  a scroll container and ScrollTrigger then measures the wrong scroller.
 
 ## Where the content lives
 

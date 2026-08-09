@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import ScrollToPlugin from 'gsap/ScrollToPlugin';
 
 /**
  * Motion for the deck. Everything here is decoration on top of a page that
@@ -11,7 +12,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 const rtl = document.documentElement.dir === 'rtl' ? -1 : 1;
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const qs = <T extends Element = HTMLElement>(sel: string, root: ParentNode = document) =>
   Array.from(root.querySelectorAll(sel)) as T[];
@@ -52,10 +53,19 @@ function overture() {
     .from('.hero__intro', { opacity: 0, y: 16 }, 1.25)
     .from('.hero__cta > *', { opacity: 0, y: 14, stagger: 0.1 }, 1.35)
     .from('.hero__domains li', { opacity: 0, y: 10, stagger: 0.07 }, 1.45)
-    .add(release(['.hero__cta > *', '.frame svg', '.topbar__inner > *']));
+    .add(release(['.hero__cta > *', '.frame svg', '.topbar__inner > *']))
+    // the type settles at slightly different widths than it started at
+    .add(() => ScrollTrigger.refresh());
 }
 
-/** Scroll away and the card comes toward you instead of politely leaving. */
+/**
+ * Scroll away and the card comes toward you instead of politely leaving.
+ *
+ * Every target here is one the overture does not touch: the intro animates
+ * `.plate` and the individual lines of type, this animates `.plate__inner`,
+ * the image, and the `.hero__type` wrapper. Two tweens on one property would
+ * make the scrub record its start values mid-intro and animate from nonsense.
+ */
 function heroZoom() {
   const plate = document.querySelector('.plate__inner');
   if (!plate) return;
@@ -67,34 +77,33 @@ function heroZoom() {
         start: 'top top',
         end: 'bottom top',
         scrub: 0.6,
+        invalidateOnRefresh: true,
       },
     })
     .to(plate, { scale: 1.22, yPercent: 8, ease: 'none' }, 0)
-    .to('.plate img', { yPercent: -7, scale: 1.06, ease: 'none' }, 0)
-    .to(
-      ['.hero__name', '.hero__role', '.hero__tagline', '.hero__intro', '.hero__cta', '.hero__domains'],
-      { y: -34, opacity: 0.18, ease: 'none', stagger: 0.02 },
-      0,
-    );
+    // scale has to outrun the drift or the frame shows daylight underneath:
+    // (scale - 1) / 2 must clear yPercent / 100.
+    .to('.plate img', { yPercent: -6, scale: 1.14, ease: 'none' }, 0)
+    .to('.hero__type', { y: -34, opacity: 0.18, ease: 'none' }, 0);
 }
 
 /** Numeral first, then the title, the way a card is turned over. */
 function sectionHeads() {
   qs('.section').forEach((section) => {
-    const numeral = section.querySelector('.numeral');
-    const title = section.querySelector('h2');
-    const note = section.querySelector('.note');
-    const intro = section.querySelector('.section-intro');
+    // Not every section carries a note or an intro; GSAP warns on null targets.
+    const parts: [Element | null, gsap.TweenVars, string][] = [
+      [section.querySelector('.numeral'), { opacity: 0, scale: 0.6, rotate: -12 }, '0'],
+      [section.querySelector('h2'), { opacity: 0, y: 22, skewY: 2 }, '-=0.55'],
+      [section.querySelector('.note'), { opacity: 0, x: 18 * rtl }, '-=0.6'],
+      [section.querySelector('.section-intro'), { opacity: 0, y: 14 }, '-=0.55'],
+    ];
 
-    gsap
-      .timeline({
-        scrollTrigger: { trigger: section, start: 'top 76%' },
-        defaults: { ease: 'power3.out', duration: 0.8 },
-      })
-      .from(numeral, { opacity: 0, scale: 0.6, rotate: -12 })
-      .from(title, { opacity: 0, y: 22, skewY: 2 }, '-=0.55')
-      .from(note, { opacity: 0, x: 18 * rtl }, '-=0.6')
-      .from(intro, { opacity: 0, y: 14 }, '-=0.55');
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: section, start: 'top 76%' },
+      defaults: { ease: 'power3.out', duration: 0.8 },
+    });
+
+    parts.forEach(([el, vars, at]) => el && tl.from(el, vars, at));
   });
 }
 
@@ -159,6 +168,32 @@ function trickTease() {
     .to(card, { rotationY: 0, duration: 0.7, ease: 'power2.out', onComplete: release(card) });
 }
 
+/**
+ * Smooth anchor jumps, done in GSAP rather than `scroll-behavior: smooth`,
+ * which fights ScrollTrigger's scrub. The skip link is left alone so it keeps
+ * moving focus the way the browser intends.
+ */
+function smoothAnchors() {
+  document.addEventListener('click', (event) => {
+    const link = (event.target as Element)?.closest?.('a[href^="#"]');
+    if (!link || link.classList.contains('skip')) return;
+
+    const hash = link.getAttribute('href');
+    if (!hash || hash === '#') return;
+
+    const target = document.querySelector(hash);
+    if (!target) return;
+
+    event.preventDefault();
+    gsap.to(window, {
+      duration: 0.9,
+      ease: 'power2.inOut',
+      scrollTo: { y: target, offsetY: 56 },
+    });
+    history.pushState(null, '', hash);
+  });
+}
+
 /** Footer meta ticks in like a machine reporting for duty. */
 function colophon() {
   gsap.from('.colophon__meta div, .colophon__links li', {
@@ -182,6 +217,7 @@ if (!reduced.matches) {
   codex();
   trickTease();
   colophon();
+  smoothAnchors();
 
   // Images finish loading after the triggers are built; positions move.
   window.addEventListener('load', () => ScrollTrigger.refresh());
