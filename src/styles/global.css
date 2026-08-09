@@ -141,6 +141,31 @@ h3 {
 }
 
 /* ---------------------------------------------------------------
+   Scroll rail — a gold thread pulled across the top of the deck
+--------------------------------------------------------------- */
+
+.rail {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  height: 2px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.rail__fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+:root[dir='rtl'] .rail__fill {
+  transform-origin: 100% 50%;
+}
+
+/* ---------------------------------------------------------------
    Page frame — the tarot border, reduced to hairlines and corners
 --------------------------------------------------------------- */
 

@@ -10,6 +10,7 @@
     "check": "astro check"
   },
   "dependencies": {
-    "astro": "^5.14.1"
+    "astro": "^5.14.1",
+    "gsap": "^3.15.0"
   }
 }

@@ -16,6 +16,27 @@ are numbered arcana, skills are four suits taken from the illustration
 (storms, night sky, crystals, foliage), and projects are cards laid out by
 hand. Aged paper, gold leaf, charcoal — not neon.
 
+## Motion
+
+GSAP + ScrollTrigger, all of it in `src/scripts/motion.ts`. The page is fully
+readable without it — nothing is hidden in CSS, so if the script fails the
+site is simply still. `prefers-reduced-motion` disables everything except the
+scroll rail.
+
+| Effect | Where |
+|---|---|
+| Overture: frame, card and type settle in sequence on load | `overture()` |
+| Scroll-linked zoom — the card grows toward you as the hero exits | `heroZoom()` |
+| Numeral turns over, then the title reveals | `sectionHeads()` |
+| Suits and project cards are dealt onto the table, then handed back to CSS | `dealCards()` |
+| Paper research card settles rather than lands | `researchCard()` |
+| Codex lines arrive from the reading edge (flips in RTL) | `codex()` |
+| Half-flip tease on the trick card | `trickTease()` |
+| Gold scroll rail across the top | `rail()` |
+
+Animations that touch elements with CSS hover states call `clearProps` when
+they finish, so GSAP's inline transforms don't outrank the stylesheet.
+
 ## Where the content lives
 
 | What | File |

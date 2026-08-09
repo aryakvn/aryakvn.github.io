@@ -54,6 +54,8 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
   <body>
     <a class="skip" href="#main">{copy.nav.skip}</a>
 
+    <div class="rail" aria-hidden="true"><span class="rail__fill"></span></div>
+
     <div class="frame" aria-hidden="true">
       <Glyph name="corner" class="c-tl" />
       <Glyph name="corner" class="c-tr" />
@@ -124,6 +126,10 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
         </p>
       </div>
     </footer>
+
+    <script>
+      import '../scripts/motion';
+    </script>
 
     <script is:inline define:vars={{ tz: site.timezone, lang }}>
       // The clock is Arya's local time, not the visitor's — that's the point.
