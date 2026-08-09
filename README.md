@@ -113,5 +113,3 @@ For a custom domain, add `public/CNAME` containing the domain.
 - [ ] `src/content/work/en/` — replace the two `example-*.md` files with real projects
 - [ ] `src/content/research/en/llmsecguard.md` — add the paper `link`
 - [ ] `src/content/writing/en/*.md` — add article `link`s
-- [ ] Delete `INSPIRATION_IMAGE.PNG` from the repo root — the hero uses the
-      copy at `src/assets/the-tinkerer.png`
