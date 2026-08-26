@@ -388,6 +388,19 @@ const [work, research, writing] = await Promise.all([load('work'), load('researc
     }
   }
 
+  /* The plate is a reproduction, and a reproduction of this vintage was
+     screened: dots over the image only, never over the gold mat. */
+  .plate__inner::after {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    background-image: var(--halftone);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
   .hero__name {
     font-size: clamp(2.6rem, 1.6rem + 5vw, 5.2rem);
     letter-spacing: 0.06em;
@@ -473,6 +486,24 @@ const [work, research, writing] = await Promise.all([load('work'), load('researc
   .sheet__prose p:last-of-type {
     color: var(--paper);
     font-style: italic;
+  }
+
+  /* A magazine opening: the initial is set in the plate's gold and the line it
+     starts carries into the column in small caps. Latin only — a Persian drop
+     cap would cut the first letter out of its own joined word. */
+  :root:not([dir='rtl']) .sheet__prose > p:first-of-type::first-letter {
+    float: left;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 3.5em;
+    line-height: 0.76;
+    margin: 0.06em 0.08em 0 0;
+    color: var(--gold);
+  }
+  :root:not([dir='rtl']) .sheet__prose > p:first-of-type::first-line {
+    font-variant-caps: small-caps;
+    letter-spacing: 0.05em;
+    color: var(--paper);
   }
 
   .creed {
@@ -666,10 +697,51 @@ const [work, research, writing] = await Promise.all([load('work'), load('researc
 
   /* ---------------- contact + trick ---------------- */
   .contact {
+    position: relative;
+    overflow: clip;
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.75fr) auto;
+    /* Fixed, not `auto`: an auto track is sized by the hint paragraph, and the
+       hint changes when the card is drawn — which re-lays the whole row out on
+       every flip. Wide enough for the longest hint on one line.
+       ponytail: a magic width, tied to the copy. If a locale's hint outgrows
+       it the text wraps under the card; nothing shifts sideways either way. */
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.75fr) 18rem;
     gap: clamp(2rem, 5vw, 4rem);
     align-items: start;
+  }
+  /* A record, turning. Concentric grooves are rotationally symmetric, so the
+     spin is only visible in the sheen crossing them — which is the only way
+     you ever see a record turn anyway. Absolute, so the grid keeps its
+     three columns. */
+  .contact::before {
+    content: '';
+    position: absolute;
+    top: -26%;
+    inset-inline-end: -10%;
+    width: min(420px, 56vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      conic-gradient(
+        from 0deg,
+        transparent 0deg 42deg,
+        rgba(255, 241, 205, 0.12) 74deg,
+        transparent 112deg 222deg,
+        rgba(255, 241, 205, 0.07) 254deg,
+        transparent 292deg 360deg
+      ),
+      var(--grooves),
+      radial-gradient(circle at center, rgba(201, 162, 39, 0.16) 0 9%, transparent 10%);
+    -webkit-mask-image: radial-gradient(circle at center, #000 58%, transparent 76%);
+    mask-image: radial-gradient(circle at center, #000 58%, transparent 76%);
+    opacity: 0.5;
+    pointer-events: none;
+    animation: platter 38s linear infinite;
+  }
+  @keyframes platter {
+    to {
+      transform: rotate(360deg);
+    }
   }
   .contact__main {
     --stack-gap: 1.8rem;

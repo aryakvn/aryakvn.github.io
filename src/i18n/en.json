@@ -12,6 +12,11 @@
     "contact": "Contact",
     "language": "Language"
   },
+  "press": {
+    "volume": "Vol. XVII",
+    "city": "Set in Tehran",
+    "motto": "Printed while you scroll"
+  },
   "hero": {
     "arcana": "XVII",
     "cardName": "The Tinkerer",

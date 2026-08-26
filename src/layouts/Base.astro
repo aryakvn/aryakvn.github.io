@@ -55,6 +55,7 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
     <a class="skip" href="#main">{copy.nav.skip}</a>
 
     <div class="rail" aria-hidden="true"><span class="rail__fill"></span></div>
+    <div class="vignette" aria-hidden="true"></div>
 
     <div class="frame" aria-hidden="true">
       <Glyph name="corner" class="c-tl" />
@@ -85,6 +86,15 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
         </div>
       </div>
     </header>
+
+    <!-- The dateline. A masthead is where a printed thing admits what it is,
+         so this one carries the only three facts that qualify: which card,
+         which press run, where it was set. -->
+    <div class="dateline shell" aria-hidden="true">
+      <span>{copy.press.volume} &middot; No. {buildId}</span>
+      <span class="dateline__city">{copy.press.city}</span>
+      <span>{copy.press.motto}</span>
+    </div>
 
     <main id="main">
       <slot />
@@ -240,6 +250,41 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
     }
     .langs {
       margin-inline-start: auto;
+    }
+  }
+
+  /* Two rules, not one: a single hairline is a divider, a pair is a masthead. */
+  .dateline {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.5rem;
+    margin-block-end: 0.5rem;
+    border-block: 1px solid rgba(201, 162, 39, 0.28);
+    box-shadow:
+      inset 0 3px 0 -2px rgba(201, 162, 39, 0.28),
+      inset 0 -3px 0 -2px rgba(201, 162, 39, 0.28);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .dateline__city {
+    color: var(--gold-soft);
+  }
+
+  @media (max-width: 720px) {
+    .dateline {
+      font-size: 0.54rem;
+      letter-spacing: 0.18em;
+    }
+    .dateline span:last-child {
+      display: none;
     }
   }
 

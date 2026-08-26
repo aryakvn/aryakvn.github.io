@@ -41,6 +41,8 @@ function overture() {
   // opacity only — the corner marks carry their own mirroring transforms
   tl.from('.frame svg', { opacity: 0, duration: 1.4, stagger: 0.06 })
     .from('.topbar__inner > *', { opacity: 0, y: -10, stagger: 0.08 }, 0.1)
+    // the masthead is printed before the page is, so it arrives with the rules
+    .from('.dateline', { opacity: 0, duration: 1.2 }, 0.2)
     .from('.hero__arcana', { opacity: 0, y: 14, letterSpacing: '0.6em' }, 0.25)
     .from(
       '.plate',
@@ -53,7 +55,7 @@ function overture() {
     .from('.hero__intro', { opacity: 0, y: 16 }, 1.25)
     .from('.hero__cta > *', { opacity: 0, y: 14, stagger: 0.1 }, 1.35)
     .from('.hero__domains li', { opacity: 0, y: 10, stagger: 0.07 }, 1.45)
-    .add(release(['.hero__cta > *', '.frame svg', '.topbar__inner > *']))
+    .add(release(['.hero__cta > *', '.frame svg', '.topbar__inner > *', '.dateline']))
     // the type settles at slightly different widths than it started at
     .add(() => ScrollTrigger.refresh());
 }
