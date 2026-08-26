@@ -1,0 +1,29 @@
+# Changelog
+
+<!--
+Maintained for both humans and Claude Code to reference. Before
+implementing a feature or fix, check the entries below first — it may
+already be done, which saves searching the whole codebase.
+
+Format (based on Keep a Changelog: https://keepachangelog.com/en/1.1.0/):
+- New entries go under "## [Unreleased]" until a release is cut.
+- Categories: Added, Changed, Fixed, Deprecated, Removed, Security.
+  Only add a category heading once it has an entry under it.
+- One bullet per entry, imperative mood, one line where possible:
+    - Add CSV export to the reports page. (Refs: JIRA-482, #210)
+- Include "(Refs: ...)" only when there's an external reference — a Jira
+  key, GitHub issue/PR number, Trello card title/URL, or similar tracker
+  ID. Comma-separate multiple references. Omit the parenthetical entirely
+  if there's nothing to reference.
+- To cut a release: rename "## [Unreleased]" to "## [X.Y.Z] - YYYY-MM-DD"
+  and start a fresh, empty "## [Unreleased]" section above it.
+- Never delete or rewrite past entries — only append.
+-->
+
+## [Unreleased]
+
+### Fixed
+
+- Suppress the `.trick__card` CSS transform transition during its scroll-in
+  tease, so the card no longer trails the tween and drifts into place after
+  the animation ends.

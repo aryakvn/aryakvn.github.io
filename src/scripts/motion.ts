@@ -167,8 +167,15 @@ function trickTease() {
   const card = document.querySelector('.trick__card');
   if (!card) return;
 
+  // `.trick__card` transitions `transform` for the flip; while GSAP writes one
+  // every frame the browser eases toward it, so the card trails the tween and
+  // is still drifting into place long after it finishes. Suppress it — the
+  // clearProps in `release` hands the transition back for the flip.
   gsap
-    .timeline({ scrollTrigger: { trigger: card, start: 'top 80%' } })
+    .timeline({
+      scrollTrigger: { trigger: card, start: 'top 80%' },
+      onStart: () => gsap.set(card, { transition: 'none' }),
+    })
     .from(card, { opacity: 0, y: 40, duration: 0.9, ease: 'power3.out' })
     .to(card, { rotationY: -22, duration: 0.5, ease: 'power2.inOut' })
     .to(card, { rotationY: 0, duration: 0.7, ease: 'power2.out', onComplete: release(card) });
