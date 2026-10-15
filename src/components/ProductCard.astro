@@ -1,0 +1,96 @@
+---
+import { Image } from 'astro:assets';
+import { dir, t, type Locale } from '../i18n';
+import { productHref, slugOf, type Product } from '../lib/products';
+
+interface Props {
+  product: Product;
+  lang: Locale;
+  /** the first card on a page is above the fold; the rest can wait */
+  eager?: boolean;
+}
+const { product, lang, eager = false } = Astro.props;
+const { data } = product;
+---
+
+<!-- One link per card: the title's anchor is stretched over the whole surface,
+     so the card is clickable without nesting interactive elements. -->
+<article class="card pcard">
+  <Image
+    src={data.image}
+    alt={data.imageAlt}
+    widths={[320, 480, 640]}
+    sizes="(max-width: 640px) 90vw, 340px"
+    loading={eager ? 'eager' : 'lazy'}
+    class="pcard__img"
+  />
+  <p class="pcard__cat label">{t(lang).products.models[data.model]} · {data.category}</p>
+  <h3 class="pcard__title">
+    <a href={productHref(lang, slugOf(product))}>{data.title}</a>
+  </h3>
+  <p class="pcard__summary">{data.summary}</p>
+  <p class="pcard__price">{data.price ?? t(lang).products.priceOnRequest}</p>
+  <span class="pcard__more" aria-hidden="true">{t(lang).products.view} {dir(lang) === 'rtl' ? '←' : '→'}</span>
+</article>
+
+<style>
+  .pcard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem 0.75rem 1.1rem;
+  }
+  .pcard :global(.pcard__img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border: 1px solid var(--ink-line);
+    margin-bottom: 0.6rem;
+  }
+  .pcard > :not(.pcard__img) {
+    margin-inline: 0.5rem;
+  }
+  .pcard__cat {
+    margin-block: 0;
+  }
+  .pcard__title {
+    font-size: 1.3rem;
+  }
+  .pcard__title a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .pcard__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .pcard__title a:focus-visible {
+    outline: none;
+  }
+  .pcard:has(a:focus-visible) {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+  .pcard__summary {
+    margin-block: 0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+  }
+  .pcard__price {
+    margin-block: 0.3rem 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--paper);
+  }
+  .pcard__more {
+    margin-top: auto;
+    padding-top: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+</style>

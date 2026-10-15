@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import ProductCard from './ProductCard.astro';
+import { LOCALES, href, t, type Locale } from '../i18n';
+import { getProducts, productHref, productsPath, slugOf } from '../lib/products';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const copy = t(lang).products;
+const products = await getProducts(lang);
+const abs = (p: string) => new URL(p, Astro.site).toString();
+
+const jsonLd = [
+  {
+    '@type': 'CollectionPage',
+    '@id': abs(href(lang, productsPath)),
+    url: abs(href(lang, productsPath)),
+    name: copy.archive.heading,
+    description: copy.archive.description,
+    inLanguage: lang,
+    isPartOf: { '@type': 'WebSite', url: abs(href(lang)), name: t(lang).meta.title },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: products.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: abs(productHref(lang, slugOf(p))),
+        name: p.data.title,
+      })),
+    },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: copy.home, item: abs(href(lang)) },
+      { '@type': 'ListItem', position: 2, name: copy.archive.heading, item: abs(href(lang, productsPath)) },
+    ],
+  },
+];
+---
+
+<Base
+  lang={lang}
+  path={productsPath}
+  title={copy.archive.title}
+  description={copy.archive.description}
+  ogType="website"
+  alternates={LOCALES}
+  jsonLd={jsonLd}
+>
+  <section class="section shell archive">
+    <nav class="crumbs label" aria-label="Breadcrumb">
+      <a href={href(lang)}>{copy.home}</a> <span aria-hidden="true">/</span> <span aria-current="page">{copy.archive.heading}</span>
+    </nav>
+
+    <h1>{copy.archive.heading}</h1>
+    <p class="archive__intro">{copy.archive.intro}</p>
+
+    {
+      products.length === 0 ? (
+        <p class="empty">{copy.empty}</p>
+      ) : (
+        <div class="products">
+          {products.map((p, i) => (
+            <ProductCard product={p} lang={lang} eager={i < 3} />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</Base>
+
+<style>
+  .archive h1 {
+    font-size: clamp(2.2rem, 1.6rem + 3vw, 4rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .archive__intro {
+    max-width: 52ch;
+    margin: 1rem 0 clamp(2rem, 4vw, 3rem);
+    color: var(--text-dim);
+  }
+  .crumbs {
+    margin: 0 0 1.4rem;
+  }
+  .crumbs a {
+    text-decoration: none;
+    color: var(--text-dim);
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+  .empty {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    border: 1px dashed var(--ink-line);
+    padding: 2rem;
+    text-align: center;
+  }
+</style>

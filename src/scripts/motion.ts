@@ -13,6 +13,8 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 const rtl = document.documentElement.dir === 'rtl' ? -1 : 1;
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+// The overture names hero parts that only the home page has.
+gsap.config({ nullTargetWarn: false });
 
 const qs = <T extends Element = HTMLElement>(sel: string, root: ParentNode = document) =>
   Array.from(root.querySelectorAll(sel)) as T[];
@@ -117,7 +119,7 @@ function sectionHeads() {
  * clearProps at the end snaps. Suppress the transition for the duration.
  */
 function dealCards() {
-  ScrollTrigger.batch('.suit, .spread > .entry', {
+  ScrollTrigger.batch('.suit, .spread > .entry, .products > .pcard', {
     start: 'top 88%',
     onEnter: (batch) => {
       gsap.set(batch, { transition: 'none' });

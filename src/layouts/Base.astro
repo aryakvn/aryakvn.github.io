@@ -2,21 +2,48 @@
 import '../styles/global.css';
 import Glyph from '../components/Glyph.astro';
 import { site, socials } from '../config';
-import { LOCALES, t, dir, href, type Locale } from '../i18n';
+import { DEFAULT_LOCALE, LOCALES, t, dir, href, type Locale } from '../i18n';
 
 interface Props {
   lang: Locale;
+  /** Locale-agnostic path with trailing slash, e.g. `products/totp-cli/`. Empty = home. */
+  path?: string;
+  title?: string;
+  description?: string;
+  /** Absolute URL of the social/share image. */
+  image?: string;
+  imageAlt?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  /** Languages this exact page exists in; the rest get no hreflang and link to home. */
+  alternates?: Locale[];
+  /** schema.org objects, emitted as one JSON-LD @graph. */
+  jsonLd?: object[];
 }
-const { lang } = Astro.props;
+const {
+  lang,
+  path = '',
+  alternates = LOCALES,
+  ogType = 'profile',
+  image,
+  imageAlt,
+  jsonLd = [],
+} = Astro.props;
 const copy = t(lang);
+const title = Astro.props.title ?? copy.meta.title;
+const description = Astro.props.description ?? copy.meta.description;
+const abs = (p: string) => new URL(p, Astro.site ?? 'https://example.com').toString();
+const canonical = abs(href(lang, path));
+const ogLocale: Record<string, string> = { en: 'en_US', fa: 'fa_IR' };
+const anchor = (id: string) => (path === '' ? `#${id}` : `${href(lang)}#${id}`);
 const direction = dir(lang);
 const buildId = new Date().toISOString().slice(0, 7).replace('-', '.');
 
 const nav = [
-  { id: 'work', label: copy.nav.work },
-  { id: 'research', label: copy.nav.research },
-  { id: 'writing', label: copy.nav.writing },
-  { id: 'contact', label: copy.nav.contact },
+  { href: anchor('work'), label: copy.nav.work },
+  { href: href(lang, 'products/'), label: copy.nav.products },
+  { href: anchor('research'), label: copy.nav.research },
+  { href: anchor('writing'), label: copy.nav.writing },
+  { href: anchor('contact'), label: copy.nav.contact },
 ];
 
 const fontFamilies = [
@@ -33,18 +60,27 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{copy.meta.title}</title>
-    <meta name="description" content={copy.meta.description} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
     <meta name="theme-color" content="#0b0a08" />
-    <meta property="og:title" content={copy.meta.title} />
-    <meta property="og:description" content={copy.meta.description} />
-    <meta property="og:type" content="profile" />
-    <link rel="canonical" href={new URL(href(lang), Astro.site ?? 'https://example.com').toString()} />
-    {
-      LOCALES.map((l) => (
-        <link rel="alternate" hreflang={l} href={new URL(href(l), Astro.site ?? 'https://example.com').toString()} />
-      ))
-    }
+    <meta name="author" content={site.author} />
+    <meta property="og:site_name" content={site.author} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    {alternates.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={ogLocale[l]} />)}
+    {image && <meta property="og:image" content={image} />}
+    {image && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={image} />}
+    <link rel="canonical" href={canonical} />
+    {alternates.map((l) => <link rel="alternate" hreflang={l} href={abs(href(l, path))} />)}
+    <link rel="alternate" hreflang="x-default" href={abs(href(DEFAULT_LOCALE, path))} />
+    {jsonLd.length > 0 && <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': jsonLd })} />}
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -79,13 +115,13 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
         </a>
 
         <nav class="topnav" aria-label={copy.meta.title}>
-          {nav.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}
+          {nav.map((item) => <a href={item.href}>{item.label}</a>)}
         </nav>
 
         <div class="langs" role="group" aria-label={copy.nav.language}>
           {
             LOCALES.map((l) => (
-              <a href={href(l)} lang={l} aria-current={l === lang ? 'true' : undefined}>
+              <a href={alternates.includes(l) ? href(l, path) : href(l)} lang={l} aria-current={l === lang ? 'true' : undefined}>
                 {t(l).meta.langName}
               </a>
             ))

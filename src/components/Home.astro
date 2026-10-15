@@ -3,9 +3,11 @@ import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import plate from '../assets/the-tinkerer.png';
 import EntryCard from './EntryCard.astro';
+import ProductCard from './ProductCard.astro';
 import Glyph from './Glyph.astro';
 import { photos, site, socials } from '../config';
-import { t, forLocale, type Locale } from '../i18n';
+import { t, forLocale, href, type Locale } from '../i18n';
+import { getProducts, productsPath } from '../lib/products';
 
 interface Props {
   lang: Locale;
@@ -23,6 +25,7 @@ const load = async (name: 'work' | 'research' | 'writing') => {
 };
 
 const [work, research, writing] = await Promise.all([load('work'), load('research'), load('writing')]);
+const products = (await getProducts(lang)).slice(0, 4);
 ---
 
 <!-- ┌───────────────────────────────────────────────┐
@@ -157,6 +160,33 @@ const [work, research, writing] = await Promise.all([load('work'), load('researc
           </EntryCard>
         ))}
       </div>
+    )
+  }
+</section>
+
+<section class="section shell" id="products">
+  <div class="section-head">
+    <span class="numeral">{copy.products.numeral}</span>
+    <h2>{copy.products.title}</h2>
+    <span class="note">{copy.products.note}</span>
+  </div>
+
+  <p class="section-intro">{copy.products.intro}</p>
+
+  {
+    products.length === 0 ? (
+      <p class="empty">{copy.products.empty}</p>
+    ) : (
+      <>
+        <div class="products">
+          {products.map((p) => (
+            <ProductCard product={p} lang={lang} />
+          ))}
+        </div>
+        <p class="products__all">
+          <a class="btn" href={href(lang, productsPath)}>{copy.products.all}</a>
+        </p>
+      </>
     )
   }
 </section>
@@ -620,6 +650,16 @@ const [work, research, writing] = await Promise.all([load('work'), load('researc
   .spread--single {
     grid-template-columns: minmax(0, 1fr);
     max-width: 780px;
+  }
+
+  /* ---------------- products ---------------- */
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+  .products__all {
+    margin: 2rem 0 0;
   }
 
   /* ---------------- codex ---------------- */
