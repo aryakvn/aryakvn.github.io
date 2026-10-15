@@ -1,0 +1,296 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProductCard from './ProductCard.astro';
+import { site } from '../config';
+import { href, t, type Locale } from '../i18n';
+import {
+  getProducts,
+  productHref,
+  productPath,
+  productsPath,
+  slugOf,
+  translationsOf,
+  type Product,
+} from '../lib/products';
+
+interface Props {
+  lang: Locale;
+  product: Product;
+}
+const { lang, product } = Astro.props;
+const { data } = product;
+const slug = slugOf(product);
+const copy = t(lang).products;
+const { Content } = await render(product);
+
+const abs = (p: string) => new URL(p, Astro.site).toString();
+const url = abs(productHref(lang, slug));
+// Share crawlers want a raster; the source may be anything Astro can decode.
+const og = await getImage({ src: data.image, width: 1200, format: 'png' });
+const modified = data.updated ?? data.published;
+const related = (await getProducts(lang)).filter((p) => p.id !== product.id).slice(0, 3);
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(`${copy.buy.subject} ${data.title}`)}`;
+const tel = `tel:${site.phone.replace(/[^+\d]/g, '')}`;
+const dateFmt = new Intl.DateTimeFormat(lang === 'fa' ? 'fa-IR' : 'en-GB', { year: 'numeric', month: 'long' });
+
+const jsonLd = [
+  {
+    '@type': data.schema,
+    '@id': url,
+    name: data.title,
+    description: data.summary,
+    url,
+    image: abs(og.src),
+    inLanguage: lang,
+    keywords: data.tags.join(', '),
+    datePublished: data.published.toISOString(),
+    dateModified: modified.toISOString(),
+    ...(data.schema === 'SoftwareApplication'
+      ? { applicationCategory: data.category, operatingSystem: 'Any' }
+      : { category: data.category }),
+    author: { '@type': 'Person', name: 'Arya Kavian', url: abs(href(lang)) },
+    // No price, no Offer: Google rejects an Offer without one.
+    ...(data.priceAmount !== undefined
+      ? {
+          offers: {
+            '@type': 'Offer',
+            price: data.priceAmount,
+            priceCurrency: data.currency,
+            availability: 'https://schema.org/InStock',
+            url,
+            seller: { '@type': 'Person', name: 'Arya Kavian' },
+          },
+        }
+      : {}),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: copy.home, item: abs(href(lang)) },
+      { '@type': 'ListItem', position: 2, name: copy.archive.heading, item: abs(href(lang, productsPath)) },
+      { '@type': 'ListItem', position: 3, name: data.title, item: url },
+    ],
+  },
+];
+---
+
+<Base
+  lang={lang}
+  path={productPath(slug)}
+  title={`${data.title} — ${data.category} | Arya Kavian`}
+  description={data.summary}
+  image={abs(og.src)}
+  imageAlt={data.imageAlt}
+  ogType="article"
+  alternates={await translationsOf(slug)}
+  jsonLd={jsonLd}
+>
+  <article class="section shell product">
+    <nav class="crumbs label" aria-label="Breadcrumb">
+      <a href={href(lang)}>{copy.home}</a> <span aria-hidden="true">/</span>
+      <a href={href(lang, productsPath)}>{copy.archive.heading}</a> <span aria-hidden="true">/</span>
+      <span aria-current="page">{data.title}</span>
+    </nav>
+
+    <header class="product__head">
+      <p class="label">{copy.models[data.model]} · {data.category}</p>
+      <h1>{data.title}</h1>
+      <p class="product__summary">{data.summary}</p>
+      <div class="product__meta label">
+        <span>{copy.published} <time datetime={data.published.toISOString().slice(0, 10)}>{dateFmt.format(data.published)}</time></span>
+        {data.updated && <span>{copy.updated} <time datetime={data.updated.toISOString().slice(0, 10)}>{dateFmt.format(data.updated)}</time></span>}
+      </div>
+      <p class="product__price">{copy.priceLabel}: <strong>{data.price ?? copy.priceOnRequest}</strong></p>
+      <div class="product__cta">
+        <a class="btn btn--solid" href={mailto}>{copy.buy.email}</a>
+        <a class="btn" href={tel}>{copy.buy.phone}</a>
+      </div>
+    </header>
+
+    <figure class="product__shot">
+      <Image src={data.image} alt={data.imageAlt} widths={[640, 960, 1200]} sizes="(max-width: 960px) 92vw, 860px" loading="eager" fetchpriority="high" />
+    </figure>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <section class="buy card" aria-labelledby="get">
+      <h2 id="get">{copy.buy.title}</h2>
+      <p>{copy.buy.intro}</p>
+      <ul>
+        <li><a href={mailto}>{site.email}</a></li>
+        <li><a href={tel} dir="ltr">{site.phone}</a></li>
+      </ul>
+    </section>
+
+    {
+      data.tags.length > 0 && (
+        <ul class="tags">
+          {data.tags.map((tag) => (
+            <li>{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </article>
+
+  {
+    related.length > 0 && (
+      <aside class="section shell" aria-labelledby="more">
+        <h2 id="more" class="more">{copy.more}</h2>
+        <div class="products">
+          {related.map((p) => <ProductCard product={p} lang={lang} />)}
+        </div>
+      </aside>
+    )
+  }
+</Base>
+
+<style>
+  .crumbs {
+    margin: 0 0 1.6rem;
+  }
+  .crumbs a {
+    text-decoration: none;
+    color: var(--text-dim);
+  }
+  .product__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 62ch;
+  }
+  .product__head p {
+    margin: 0;
+  }
+  .product h1 {
+    font-size: clamp(2.4rem, 1.6rem + 3.5vw, 4.4rem);
+    letter-spacing: 0.02em;
+  }
+  .product__summary {
+    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem);
+    line-height: 1.55;
+    color: var(--paper);
+  }
+  .product__price {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .product__price strong {
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .product__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .buy {
+    margin-top: 3rem;
+    max-width: var(--measure);
+  }
+  .buy h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+  }
+  .buy p {
+    margin: 0 0 1rem;
+    color: var(--text-dim);
+  }
+  .buy ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+  }
+  .product__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    color: var(--text-dim);
+  }
+  .product__shot {
+    margin: clamp(2rem, 5vw, 3.5rem) 0;
+    padding: 10px;
+    border: 1px solid var(--gold-soft);
+    outline: 1px solid rgba(201, 162, 39, 0.22);
+    outline-offset: 5px;
+    background: linear-gradient(150deg, #2a2213, #14110b 60%);
+    max-width: 860px;
+  }
+
+  /* The long description is markdown, so its elements are unclassed. */
+  .prose {
+    max-width: var(--measure);
+  }
+  .prose :global(h2) {
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
+    margin: 2.6rem 0 1rem;
+  }
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(h3) {
+    font-size: 1.3rem;
+    margin: 2rem 0 0.7rem;
+  }
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1.1rem;
+  }
+  .prose :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .prose :global(li::marker) {
+    color: var(--gold-soft);
+  }
+  .prose :global(strong) {
+    color: var(--paper-warm);
+  }
+  .prose :global(code) {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    color: var(--gold);
+  }
+  .prose :global(pre) {
+    overflow-x: auto;
+    padding: 1rem 1.2rem;
+    background: var(--ink-raise);
+    border: 1px solid var(--ink-line);
+    direction: ltr;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+  }
+  .tags li {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--ink-line);
+    padding: 0.25em 0.6em;
+  }
+
+  .more {
+    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.2rem);
+    margin-bottom: 1.6rem;
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+</style>

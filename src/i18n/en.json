@@ -7,6 +7,7 @@
   "nav": {
     "skip": "Skip to content",
     "work": "Work",
+    "products": "Products",
     "research": "Research",
     "writing": "Writing",
     "contact": "Contact",
@@ -24,7 +25,12 @@
     "role": "Software engineer · tinkerer · researcher",
     "tagline": "Curious about what happens underneath.",
     "intro": "I build software, take it apart, and try to work out why it held together in the first place.",
-    "domains": ["Web", "AI", "Security", "Systems"],
+    "domains": [
+      "Web",
+      "AI",
+      "Security",
+      "Systems"
+    ],
     "ctaWork": "See the work",
     "ctaResearch": "Read the research",
     "imageAlt": "An engraved tarot plate: Arya Kavian holding a laptop, between a starry night sky and a storm cloud, surrounded by books, crystals and foliage."
@@ -40,16 +46,42 @@
     ],
     "statsTitle": "Attributes",
     "stats": [
-      { "k": "Class", "v": "Software engineer" },
-      { "k": "Subclass", "v": "Tinkerer / researcher" },
-      { "k": "Location", "v": "Iran" },
-      { "k": "Domains", "v": "Web · AI · Security · Systems" },
-      { "k": "Currently", "v": "Probably debugging something" },
-      { "k": "Stack", "v": "Too many things" },
-      { "k": "Weakness", "v": "Interesting problems" }
+      {
+        "k": "Class",
+        "v": "Software engineer"
+      },
+      {
+        "k": "Subclass",
+        "v": "Tinkerer / researcher"
+      },
+      {
+        "k": "Location",
+        "v": "Iran"
+      },
+      {
+        "k": "Domains",
+        "v": "Web · AI · Security · Systems"
+      },
+      {
+        "k": "Currently",
+        "v": "Probably debugging something"
+      },
+      {
+        "k": "Stack",
+        "v": "Too many things"
+      },
+      {
+        "k": "Weakness",
+        "v": "Interesting problems"
+      }
     ],
     "creedTitle": "Method",
-    "creed": ["Build it.", "Understand it.", "Break it.", "Secure it."]
+    "creed": [
+      "Build it.",
+      "Understand it.",
+      "Break it.",
+      "Secure it."
+    ]
   },
   "suits": {
     "numeral": "II",
@@ -62,28 +94,53 @@
         "name": "Storms",
         "sub": "Systems & infrastructure",
         "line": "Containers, reverse proxies, queues, CI, the machine underneath the machine.",
-        "tags": ["Docker", "Linux", "Nginx", "CI/CD", "Networking", "Postgres"]
+        "tags": [
+          "Docker",
+          "Linux",
+          "Nginx",
+          "CI/CD",
+          "Networking",
+          "Postgres"
+        ]
       },
       {
         "glyph": "moon",
         "name": "Night sky",
         "sub": "AI & language models",
         "line": "Building software around models, and asking hard questions about what they produce.",
-        "tags": ["LLMs", "Python", "Local models", "Computer vision", "Agents"]
+        "tags": [
+          "LLMs",
+          "Python",
+          "Local models",
+          "Computer vision",
+          "Agents"
+        ]
       },
       {
         "glyph": "crystal",
         "name": "Crystals",
         "sub": "Security",
         "line": "Authentication, static analysis, vulnerability detection. How systems fail, and why.",
-        "tags": ["AppSec", "Static analysis", "Auth", "Honeypots", "Threat modelling"]
+        "tags": [
+          "AppSec",
+          "Static analysis",
+          "Auth",
+          "Honeypots",
+          "Threat modelling"
+        ]
       },
       {
         "glyph": "leaf",
         "name": "Foliage",
         "sub": "Web & craft",
         "line": "The part people actually touch. Interfaces that behave like well-made objects.",
-        "tags": ["Vue", "Django", "TypeScript", "Astro", "Design systems"]
+        "tags": [
+          "Vue",
+          "Django",
+          "TypeScript",
+          "Astro",
+          "Design systems"
+        ]
       }
     ]
   },
@@ -94,14 +151,47 @@
     "intro": "I needed something. So I built it. The interesting part was usually somewhere in the middle.",
     "empty": "No cards on the table yet."
   },
-  "research": {
+  "products": {
     "numeral": "IV",
+    "title": "Products",
+    "note": "Software for sale, by email or phone",
+    "intro": "SaaS and licensable software I build and sell. Every product can be bought by email or phone.",
+    "empty": "No products on the table yet.",
+    "all": "All products",
+    "view": "View product",
+    "home": "Home",
+    "category": "Category",
+    "published": "Published",
+    "updated": "Updated",
+    "more": "More products",
+    "archive": {
+      "title": "Products — Arya Kavian",
+      "heading": "Products",
+      "description": "SaaS and licensable software by Arya Kavian: what each product does, every feature, and how to get a quote.",
+      "intro": "Software you can subscribe to or license. Each product has its own page with the full feature list; to buy, email or call me."
+    },
+    "models": {
+      "saas": "SaaS",
+      "license": "Software license"
+    },
+    "priceLabel": "Pricing",
+    "priceOnRequest": "Price on request",
+    "buy": {
+      "title": "How to get it",
+      "intro": "There's no online checkout. Email or call me, tell me what you need, and I'll reply with a quote, license terms and next steps.",
+      "email": "Email me",
+      "phone": "Call me",
+      "subject": "Inquiry:"
+    }
+  },
+  "research": {
+    "numeral": "V",
     "title": "Things I wondered about",
     "note": "Published work",
     "empty": "Nothing published here yet."
   },
   "writing": {
-    "numeral": "V",
+    "numeral": "VI",
     "title": "The codex",
     "note": "Notes and long rabbit holes",
     "intro": "Notes from things I couldn't stop wondering about.",
@@ -109,14 +199,14 @@
     "readMore": "Read"
   },
   "photos": {
-    "numeral": "VI",
+    "numeral": "VII",
     "title": "Outside the terminal",
     "note": "Optional, and better that way",
     "intro": "Cars. Cameras. Machines. Things with interesting mechanisms.",
     "empty": "Nothing developed yet. Come back after the next roll."
   },
   "contact": {
-    "numeral": "VII",
+    "numeral": "VIII",
     "title": "Correspondence",
     "note": "Slow but reliable",
     "intro": "Working on something strange, technical, or both? I read everything.",

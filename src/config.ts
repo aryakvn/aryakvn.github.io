@@ -5,6 +5,8 @@ export const site = {
   author: 'Arya Kavian',
   initials: 'AK',
   email: 'aryakavian01@gmail.com',
+  /** The "Call me" button on product pages. Required, e.g. '+98 912 000 0000' */
+  phone: '+989120299325',
   timezone: 'Asia/Tehran',
 };
 

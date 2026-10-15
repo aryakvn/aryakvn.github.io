@@ -22,6 +22,19 @@ Format (based on Keep a Changelog: https://keepachangelog.com/en/1.1.0/):
 
 ## [Unreleased]
 
+### Added
+
+- Add a multilingual (en/fa) products section: `products` content collection, archive at `/products/`, single pages at `/products/<slug>/`, and small cards on the home page.
+- Add SEO for products: per-page title/description, canonical and hreflang (only for translated pages), Open Graph/Twitter tags, JSON-LD (Product/SoftwareApplication, CollectionPage, BreadcrumbList), `sitemap.xml` and `robots.txt`.
+- Make products sellable: `model` (saas/license), `price`, `priceAmount`/`currency` fields, price on cards and pages, "how to get it" block with prefilled email (and optional phone via `site.phone`) instead of online checkout, Offer JSON-LD only when a numeric price is set.
+- Add the first product, TOTP CLI, with a placeholder image to replace.
+- Add DanMa, the school management platform, as the products page's product (en + fa, image built from the DanMa teaser frames); remove the TOTP CLI placeholder product.
+
+### Changed
+
+- Replace the product page's source link with a permanent "Call me" button; product CTAs are now only Email me and Call me, and the unused `link`/`linkLabel` product fields are removed.
+- Renumber the home page section numerals (research to contact) to make room for Products; Base layout now takes `path`, `title`, `description`, `image`, `alternates` and `jsonLd`.
+
 ### Fixed
 
 - Suppress the `.trick__card` CSS transform transition during its scroll-in
