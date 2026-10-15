@@ -6,7 +6,9 @@ import { defineConfig } from 'astro/config';
 const base = process.env.BASE_PATH || '/';
 
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://aryakvn.github.io',
+  // configure-pages reports http:// while "Enforce HTTPS" is off, which put
+  // http URLs in every canonical and the sitemap — duplicates of the https pages.
+  site: (process.env.SITE_URL || 'https://aryakvn.github.io').replace(/^http:/, 'https:'),
   base,
   trailingSlash: 'ignore',
   i18n: {

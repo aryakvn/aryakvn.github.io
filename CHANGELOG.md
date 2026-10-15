@@ -43,6 +43,9 @@ Format (based on Keep a Changelog: https://keepachangelog.com/en/1.1.0/):
   the animation ends.
 - Fix the contact row re-laying out when the trick card is flipped: the third
   grid track was sized to the hint text, which changes with the card.
+- Force `https://` on the site URL so canonicals, hreflang, `sitemap.xml` and
+  `robots.txt` stop pointing at `http://` duplicates (Search Console:
+  "Duplicate without user-selected canonical").
 
 ### Added
 
