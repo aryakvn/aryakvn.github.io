@@ -33,6 +33,7 @@ Format (based on Keep a Changelog: https://keepachangelog.com/en/1.1.0/):
 ### Changed
 
 - Replace the product page's source link with a permanent "Call me" button; product CTAs are now only Email me and Call me, and the unused `link`/`linkLabel` product fields are removed.
+- Rename the DanMa product to Danik (en + fa); its URL moves to `/products/danik/`.
 - Renumber the home page section numerals (research to contact) to make room for Products; Base layout now takes `path`, `title`, `description`, `image`, `alternates` and `jsonLd`.
 
 ### Fixed

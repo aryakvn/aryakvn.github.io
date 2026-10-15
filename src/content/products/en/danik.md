@@ -1,9 +1,9 @@
 ---
-title: DanMa
+title: Danik
 summary: An all-in-one platform for private schools and academies, covering the public website, classes and roll call, tuition, accounting and an online shop. Self-hosted, in Persian.
 category: School management platform
-image: ../../../assets/products/danma.png
-imageAlt: "Four phone screens from the DanMa panel showing an accounting overview with a yearly income chart, a tuition invoice with its balance, a student's attendance and grades, and a parent's home screen."
+image: ../../../assets/products/danik.png
+imageAlt: "Four phone screens from the Danik panel showing an accounting overview with a yearly income chart, a tuition invoice with its balance, a student's attendance and grades, and a parent's home screen."
 schema: SoftwareApplication
 model: license
 published: 2026-08-03
@@ -12,7 +12,7 @@ tags: [ 'Django', 'Vue', 'PWA', 'RTL', 'Docker' ]
 order: 1
 ---
 
-DanMa runs a private school or training academy from a single install. You get the public website that brings parents
+Danik runs a private school or training academy from a single install. You get the public website that brings parents
 in, the panel where teachers, parents and students work every day, and the back office where the owner and the finance
 desk keep the money straight. It was built for and runs at a real technology academy for children and teenagers, and
 it is fully Persian and right-to-left.
@@ -73,7 +73,7 @@ the panel, the login screen, printed sheets and text messages all use them.
 
 ## Installation and licensing
 
-DanMa is licensed software that you run on your own server, so your families' data never leaves your hands. It ships
+Danik is licensed software that you run on your own server, so your families' data never leaves your hands. It ships
 as an offline bundle: Docker images, PostgreSQL and a one-command installer that needs no internet connection and
 generates its own secrets. A single Linux server with Docker is enough.
 
