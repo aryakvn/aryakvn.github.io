@@ -47,6 +47,8 @@ Format (based on Keep a Changelog: https://keepachangelog.com/en/1.1.0/):
 - Force `https://` on the site URL so canonicals, hreflang, `sitemap.xml` and
   `robots.txt` stop pointing at `http://` duplicates (Search Console:
   "Duplicate without user-selected canonical").
+- Fix slight horizontal scroll on phones: the hero photo's scroll zoom pushed
+  it past the screen edge; `.hero` now clips its own x-overflow.
 
 ### Added
 

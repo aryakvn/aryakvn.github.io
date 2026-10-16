@@ -357,6 +357,10 @@ const products = (await getProducts(lang)).slice(0, 4);
   .hero {
     padding-block: clamp(2.5rem, 6vw, 5rem) clamp(4rem, 8vw, 7rem);
     text-align: center;
+    /* heroZoom() scales the full-width plate past the screen edge on phones.
+       body's clip only reaches it via viewport propagation, which mobile
+       Safari ignores — so clip here. `clip`, not `hidden`, for ScrollTrigger. */
+    overflow-x: clip;
   }
 
   .hero__arcana {
