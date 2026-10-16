@@ -114,7 +114,7 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
           <span>{site.initials}</span>
         </a>
 
-        <nav class="topnav" aria-label={copy.meta.title}>
+        <nav class="topnav" id="topnav" aria-label={copy.meta.title}>
           {nav.map((item) => <a href={item.href}>{item.label}</a>)}
         </nav>
 
@@ -127,6 +127,10 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
             ))
           }
         </div>
+
+        <button class="burger" type="button" aria-controls="topnav" aria-expanded="false" aria-label={copy.nav.menu}>
+          <span></span><span></span>
+        </button>
       </div>
     </header>
 
@@ -182,6 +186,25 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
 
     <script>
       import '../scripts/motion';
+    </script>
+
+    <script>
+      // Phone menu: the button flips aria-expanded, CSS does the rest.
+      const bar = document.querySelector('.topbar');
+      const burger = document.querySelector<HTMLButtonElement>('.burger');
+      const setOpen = (open: boolean) => {
+        bar?.toggleAttribute('data-open', open);
+        burger?.setAttribute('aria-expanded', String(open));
+      };
+      burger?.addEventListener('click', () => setOpen(!bar?.hasAttribute('data-open')));
+      bar?.querySelectorAll('.topnav a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && bar?.hasAttribute('data-open')) {
+          setOpen(false);
+          burger?.focus();
+        }
+      });
+      matchMedia('(min-width: 721px)').addEventListener('change', () => setOpen(false));
     </script>
 
     <script is:inline define:vars={{ tz: site.timezone, lang }}>
@@ -287,12 +310,97 @@ const fontHref = `https://fonts.googleapis.com/css2?${fontFamilies.join('&')}&di
     margin-inline-end: 0.75rem;
   }
 
+  .burger {
+    display: none;
+  }
+
+  /* On phones the nav drops out of the bar as a panel. It opens with
+     clip-path, not transform/opacity: the overture already tweens those on
+     every .topbar__inner child, and one property gets one animator. */
   @media (max-width: 720px) {
     .topnav {
-      display: none;
+      position: absolute;
+      top: 100%;
+      inset-inline: 0;
+      flex-direction: column;
+      gap: 0;
+      margin: 0;
+      padding: 0.5rem 1.25rem 1.25rem;
+      background: var(--ink);
+      border-bottom: 1px solid rgba(201, 162, 39, 0.28);
+      clip-path: inset(0 0 100% 0);
+      visibility: hidden;
+      transition:
+        clip-path 0.45s cubic-bezier(0.7, 0, 0.3, 1),
+        visibility 0s 0.45s;
     }
+    .topnav a {
+      padding-block: 0.9rem;
+      font-size: 0.8rem;
+      border-bottom: 1px solid var(--ink-line);
+      opacity: 0;
+      translate: 0 -0.5rem;
+      transition:
+        opacity 0.2s,
+        translate 0.2s;
+    }
+    .topnav a:last-child {
+      border-bottom: 0;
+    }
+    [data-open] .topnav {
+      clip-path: inset(0 0 0 0);
+      visibility: visible;
+      transition: clip-path 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    [data-open] .topnav a {
+      opacity: 1;
+      translate: 0 0;
+      transition:
+        opacity 0.4s calc(0.12s + var(--i, 0) * 0.05s),
+        translate 0.4s calc(0.12s + var(--i, 0) * 0.05s) cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .topnav a:nth-child(2) { --i: 1; }
+    .topnav a:nth-child(3) { --i: 2; }
+    .topnav a:nth-child(4) { --i: 3; }
+    .topnav a:nth-child(5) { --i: 4; }
+
     .langs {
       margin-inline-start: auto;
+    }
+
+    .burger {
+      display: grid;
+      place-content: center;
+      gap: 6px;
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-inline-end: -0.6rem;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+    .burger span {
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--gold);
+      transition: translate 0.35s, rotate 0.35s;
+    }
+    [data-open] .burger span:first-child {
+      translate: 0 3.5px;
+      rotate: 45deg;
+    }
+    [data-open] .burger span:last-child {
+      translate: 0 -3.5px;
+      rotate: -45deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .topnav,
+    .topnav a,
+    .burger span {
+      transition: none !important;
     }
   }
 

@@ -28,6 +28,7 @@ Format (based on Keep a Changelog: https://keepachangelog.com/en/1.1.0/):
 - Add SEO for products: per-page title/description, canonical and hreflang (only for translated pages), Open Graph/Twitter tags, JSON-LD (Product/SoftwareApplication, CollectionPage, BreadcrumbList), `sitemap.xml` and `robots.txt`.
 - Make products sellable: `model` (saas/license), `price`, `priceAmount`/`currency` fields, price on cards and pages, "how to get it" block with prefilled email (and optional phone via `site.phone`) instead of online checkout, Offer JSON-LD only when a numeric price is set.
 - Add the first product, TOTP CLI, with a placeholder image to replace.
+- Add a mobile menu (≤720px): burger button that morphs to an X and a nav panel that wipes open/closed via clip-path with staggered links; closes on link click, Escape, or resize to desktop.
 - Add DanMa, the school management platform, as the products page's product (en + fa, image built from the DanMa teaser frames); remove the TOTP CLI placeholder product.
 
 ### Changed
