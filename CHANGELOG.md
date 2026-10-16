@@ -40,6 +40,7 @@ Format (based on Keep a Changelog: https://keepachangelog.com/en/1.1.0/):
 
 ### Fixed
 - Reset letter-spacing to normal on the Persian (RTL) site; tracking breaks connected Arabic-script letters.
+- Skip the hero's animated letter-spacing tween on the Persian site, so no tracking is applied even mid-intro.
 
 - Suppress the `.trick__card` CSS transform transition during its scroll-in
   tease, so the card no longer trails the tween and drifts into place after

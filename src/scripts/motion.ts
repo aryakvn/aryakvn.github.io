@@ -45,13 +45,13 @@ function overture() {
     .from('.topbar__inner > *', { opacity: 0, y: -10, stagger: 0.08 }, 0.1)
     // the masthead is printed before the page is, so it arrives with the rules
     .from('.dateline', { opacity: 0, duration: 1.2 }, 0.2)
-    .from('.hero__arcana', { opacity: 0, y: 14, letterSpacing: '0.6em' }, 0.25)
+    .from('.hero__arcana', { opacity: 0, y: 14, ...(rtl === 1 && { letterSpacing: '0.6em' }) }, 0.25)
     .from(
       '.plate',
       { opacity: 0, y: 48, scale: 0.93, filter: 'blur(10px)', duration: 1.5, ease: 'expo.out' },
       0.35,
     )
-    .from('.hero__name', { opacity: 0, y: 24, letterSpacing: '0.28em', duration: 1.2 }, 0.75)
+    .from('.hero__name', { opacity: 0, y: 24, ...(rtl === 1 && { letterSpacing: '0.28em' }), duration: 1.2 }, 0.75)
     .from('.hero__role', { opacity: 0, y: 12 }, 1.0)
     .from('.hero__tagline', { opacity: 0, y: 16 }, 1.15)
     .from('.hero__intro', { opacity: 0, y: 16 }, 1.25)
