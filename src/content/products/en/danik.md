@@ -1,7 +1,7 @@
 ---
 title: Danik
-summary: An all-in-one platform for private schools and academies, covering the public website, classes and roll call, tuition, accounting and an online shop. Self-hosted, in Persian.
-category: School management platform
+summary: "An all-in-one platform for running and growing online academies: website, online classes, attendance, tuition, communication and digital products. Self-hosted, in Persian."
+category: Online academy and school management platform
 image: ../../../assets/products/danik.png
 imageAlt: "Four phone screens from the Danik panel showing an accounting overview with a yearly income chart, a tuition invoice with its balance, a student's attendance and grades, and a parent's home screen."
 schema: SoftwareApplication
@@ -12,70 +12,125 @@ tags: [ 'Django', 'Vue', 'PWA', 'RTL', 'Docker' ]
 order: 1
 ---
 
-Danik runs a private school or training academy from a single install. You get the public website that brings parents
-in, the panel where teachers, parents and students work every day, and the back office where the owner and the finance
-desk keep the money straight. It was built for and runs at a real technology academy for children and teenagers, and
-it is fully Persian and right-to-left.
+## Turn your education center into an online academy
 
-It is white-label. You set your school's name, logo, tagline and contact details once in the admin, and the website,
-the panel, the login screen, printed sheets and text messages all use them.
+Danik is an all-in-one platform for running an education center and delivering education online. Your public website, classes, teachers, students, parents, tuition and communication all come together in one system, with the option to run everything on your own infrastructure.
 
-## Public website
+Danik was built for a real education organization and is used in day-to-day operations. It is fully localized for Persian and RTL, with an interface designed for everyday use on both phones and computers.
 
-- **Course catalogue** with private and group options, filters, sorting and a page per course.
-- **Events, blog and FAQ**, all edited by your staff in the admin, with no developer involved.
-- **Enquiry form** that collects leads for the office to follow up.
-- **Search-ready** out of the box: server-rendered pages, a sitemap, robots rules and structured data, so parents find
-  you under your own name.
-- **Public certificate pages**: every certificate you issue gets a link anyone can open to check it.
+## Everything you need for an online academy
 
-## One panel for teachers, parents and students
+### Your academy website
 
-- **A single app for everyone.** Access follows the classes, not the account. One login can teach one class and study
-  in another, and the panel shows each side separately.
-- **Teachers** start and end sessions, take roll call, record grades, and post photos, notes and links to their classes.
-- **Parents** see their children's classes, attendance, grades, upcoming sessions and tuition, all in one place.
-- **Students** see their own classes, grades and certificates, and never anything about money.
-- **Office announcements** appear first on everyone's home screen.
-- **Installable** on phones and desktops as a progressive web app, designed mobile-first.
+Your public website is part of Danik, rather than another system you have to manage separately.
 
-## Tuition and accounting
+- Course and class listings for private and group sessions
+- Academy and instructor profiles
+- Dedicated pages for each course
+- Events, news and blog
+- Frequently asked questions
+- Enquiry and registration forms
+- Search-engine-ready pages and basic SEO tools
+- Public certificate verification pages
 
-- **Invoices and payments** for every family, with partial payments, balances, due dates and reminders.
-- **Finance desk role** that sees tuition across every family and nothing else, plus finance reports in the admin.
-- **Accounting**: a monthly overview of income, expenses, teacher pay and what is outstanding, with a yearly chart.
-- **Teacher pay** worked out from the sessions each teacher actually ran. The rate is locked when a session ends, so a
-  raise never rewrites past months. Teachers see their own pay and nothing more.
-- **Expenses with receipts, recurring monthly bills** paid in one press, and other income, all kept by Shamsi month.
+Your staff can manage the site's content themselves without needing a developer for everyday changes.
 
-## Shop and video courses
+## Online classes and education management
 
-- **Physical and digital products**, such as workbooks and handouts, with stock, discounts, galleries and spec sheets.
-- **Video courses** sold with a licence for each buyer.
-- **Online payment through ZarinPal**, or card-to-card transfer with receipt upload.
-- **Private downloads**: digital purchases are served only to the people who bought them.
+Manage in-person and online education side by side.
 
-## Accounts and permissions
+- Live online classes
+- Class and session scheduling
+- Attendance and roll call
+- Grades and assessments
+- Assignments and learning resources
+- Announcements for students and parents
+- Teacher and class management
+- Student learning records
 
-- **Phone-number login.** The office registers a family in one step. The password is generated, printed on an A5
-  credential card and can be sent by text message.
-- **Permission-based roles**: admin, teacher, parent, student, finance and shop customer. Each role is a group the owner
-  can widen or narrow in the admin, with no redeploy.
-- **Instant revocation**: change what someone may do and their open sessions sign out and pick up the new rules.
-- **Certificates** with pass marks and a grade ceiling, announced to the student by text message.
+Students can join their online classes from the same environment where they see their schedule and classes.
 
-## Optional integrations
+## One experience for students and parents
 
-- **Live online classes** on a self-hosted Jitsi video server.
-- **Team and class chat** on a self-hosted Mattermost server.
-- **Text messages** through your SMS provider's webhook.
-- Every key and setting is edited in the admin, not in code.
+Every family gets its own dedicated space to follow their children's education.
 
-## Installation and licensing
+Parents can see classes, upcoming sessions, attendance, grades, tuition and academy announcements in one place.
 
-Danik is licensed software that you run on your own server, so your families' data never leaves your hands. It ships
-as an offline bundle: Docker images, PostgreSQL and a one-command installer that needs no internet connection and
-generates its own secrets. A single Linux server with Docker is enough.
+Students have access to their classes, learning resources, grades and certificates, without being exposed to financial information.
 
-Licences are quoted per school, with installation and setup included. There is no online checkout. Email or call me
-with the size of your school and what you need, and I'll reply with a quote and a live demo.
+The interface is mobile-first, and Danik can be installed on phones and computers as a progressive web app.
+
+## Tuition and finance
+
+Keep your academy's financial operations in the same system as its education.
+
+- Invoices and payment tracking
+- Online payments
+- Outstanding balances and due dates
+- Payment reminders
+- Income and expense reports
+- Teacher payments
+- Expense and receipt records
+- Periodic financial reports
+
+Owners and finance staff can access the information they need without being exposed to unrelated areas of the system.
+
+## Shop and digital learning
+
+If your academy sells educational products or courses, you can manage those alongside your classes.
+
+- Books, workbooks and other educational products
+- Inventory management
+- Digital products
+- Video courses
+- Online payments
+- Card-to-card payments and receipt submission
+- Private delivery of digital content
+
+## Your brand, your academy
+
+Danik is delivered under your academy's identity.
+
+Set your name, logo, contact information and other branding once, and use them consistently across the website and platform.
+
+Because Danik is self-hosted, your academy keeps its own server, domain and data.
+
+## Built for real education centers
+
+Danik was originally developed for a real education organization and shaped through everyday use before being prepared for other academies.
+
+It is designed around the complete education journey:
+
+**Attract → Register → Schedule → Teach → Track attendance → Assess → Collect tuition → Communicate → Certify**
+
+All in one system.
+
+## Integrations
+
+Danik can integrate with the services your academy needs, including:
+
+- **Live classes** with Jitsi
+- **Class and team communication** with Mattermost
+- **SMS** through your preferred provider
+
+Additional integrations can be evaluated when needed.
+
+## Self-hosted deployment
+
+Danik is licensed software that runs on your own infrastructure.
+
+Your academy keeps control of its server, domain and data, while we handle the initial installation and configuration.
+
+Installation, setup and initial training are included with the license.
+
+## Licensing and pricing
+
+Danik is licensed per academy, with pricing based on the size and requirements of your organization.
+
+There is no online checkout. Tell us about your academy and what you need, and we will:
+
+- Recommend the appropriate plan
+- Provide a quote
+- Give you a live demonstration
+
+**Contact to request pricing and a demo.**
