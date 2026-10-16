@@ -55,6 +55,14 @@
   --mono: 'Vazirmatn', 'Space Mono', monospace;
 }
 
+/* Persian is a connected script: any tracking breaks the joins between letters.
+   One override beats every component's scoped letter-spacing, hence !important. */
+:root[dir='rtl'] *,
+:root[dir='rtl'] *::before,
+:root[dir='rtl'] *::after {
+  letter-spacing: normal !important;
+}
+
 *,
 *::before,
 *::after {

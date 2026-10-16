@@ -39,6 +39,7 @@ Format (based on Keep a Changelog: https://keepachangelog.com/en/1.1.0/):
 - Renumber the home page section numerals (research to contact) to make room for Products; Base layout now takes `path`, `title`, `description`, `image`, `alternates` and `jsonLd`.
 
 ### Fixed
+- Reset letter-spacing to normal on the Persian (RTL) site; tracking breaks connected Arabic-script letters.
 
 - Suppress the `.trick__card` CSS transform transition during its scroll-in
   tease, so the card no longer trails the tween and drifts into place after
